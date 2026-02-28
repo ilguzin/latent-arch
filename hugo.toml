@@ -1,0 +1,50 @@
+baseURL = 'https://ilguzin.github.io/latent-arch/'
+languageCode = 'en-us'
+title = 'Latent Arch'
+theme = 'PaperMod'
+
+[params]
+  author = 'Denis Ilguzin'
+  description = 'Software Architect · Engineering Leader · AI Engineering · 20 years in tech'
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowShareButtons = false
+  ShowCodeCopyButtons = true
+  defaultTheme = 'auto'
+  disableThemeToggle = false
+
+  [params.homeInfoParams]
+    Title = 'Latent Arch'
+    Content = 'Software Architect · Engineering Leader · AI Engineering · 20 years in tech'
+
+  [[params.socialIcons]]
+    name = 'linkedin'
+    url = 'https://linkedin.com/in/'
+
+[menu]
+  [[menu.main]]
+    identifier = 'about'
+    name = 'About'
+    url = '/about/'
+    weight = 10
+
+  [[menu.main]]
+    identifier = 'projects'
+    name = 'Projects'
+    url = '/projects/'
+    weight = 20
+
+  [[menu.main]]
+    identifier = 'blog'
+    name = 'Blog'
+    url = '/posts/'
+    weight = 30
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+[markup]
+  [markup.highlight]
+    style = 'monokai'
+    lineNos = false
