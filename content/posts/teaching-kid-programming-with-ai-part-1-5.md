@@ -1,7 +1,7 @@
 ---
 title: "Teaching My Kid Programming with AI — Part 1.5: The $20 Session"
 date: 2026-03-01
-draft: true
+draft: false
 tags: ["ai", "education", "parenting", "claude", "cost"]
 summary: "One tutoring session cost $20 in API fees. Here's why, and what I'm doing about it."
 ShowToc: true
