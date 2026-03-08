@@ -51,3 +51,7 @@ theme = 'PaperMod'
   [markup.highlight]
     style = 'monokai'
     lineNos = false
+
+[services]
+  [services.googleAnalytics]
+    ID = 'G-W08SB16PB0'
