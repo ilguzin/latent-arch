@@ -58,12 +58,12 @@ I've been prototyping this setup. It's not fully baked yet, but it's promising.
 
 ## What's next
 
-In **Part 2**, I'll walk through the dev container setup in detail: the multi-agent configuration, how I ported the tutor's personality and memory system, and whether VSCode works as a tutoring interface for a 13-year-old.
+In [**Part 2**]({{< ref "teaching-kid-programming-with-ai-part-2" >}}), I walk through the dev container setup in detail: how I ported the tutor's personality and memory system, and whether VSCode works as a tutoring interface for a 13-year-old.
 
 ---
 
 *This is Part 1.5 of a series on AI tutoring:*
 1. [The Setup]({{< ref "teaching-kid-programming-with-ai-part-1" >}}) — Discord + OpenClaw + Claude API
 2. **The $20 Session** (you are here) — why it cost too much and the pivot
-3. The Dev Container Setup *(coming soon)*
+3. [The Dev Container]({{< ref "teaching-kid-programming-with-ai-part-2" >}}) — the actual setup and one month in
 4. Lessons Learned *(coming soon)*
