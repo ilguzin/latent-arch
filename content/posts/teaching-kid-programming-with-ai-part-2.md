@@ -42,38 +42,60 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Core tools
+# Core system tools
 RUN apt-get update && apt-get install -y \
-    curl git build-essential sudo wget unzip jq ripgrep fd-find \
+    curl git build-essential sudo wget unzip jq ripgrep fd-find zstd \
     ca-certificates openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Create vscode user with passwordless sudo
-RUN groupadd --gid 1000 vscode \
-    && useradd --uid 1000 --gid 1000 -m -s /bin/bash vscode \
+# Remove default ubuntu user (UID 1000 in ubuntu:24.04) and create vscode with passwordless sudo
+ARG USER_UID=1000
+ARG USER_GID=1000
+RUN userdel -r ubuntu 2>/dev/null || true \
+    && groupdel ubuntu 2>/dev/null || true \
+    && groupadd --gid $USER_GID vscode \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash vscode \
     && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER vscode
+WORKDIR /home/vscode
 
-# Node.js 20 via nvm
+# Install nvm + Node 20
 ENV NVM_DIR=/home/vscode/.nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . "$NVM_DIR/nvm.sh" \
     && nvm install 20 \
-    && nvm alias default 20
+    && nvm alias default 20 \
+    && nvm use default
 
 ENV PATH="/home/vscode/.nvm/versions/node/v20/bin:$PATH"
 
-# Python 3.12 via uv
+# Install uv + Python 3.12
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/vscode/.local/bin:$PATH"
-RUN uv python install 3.12 && uv venv /home/vscode/.venv --python 3.12
+RUN uv python install 3.12
 
+# Create default venv
+RUN uv venv /home/vscode/.venv --python 3.12
+
+# Activate venv globally via ENV
 ENV VIRTUAL_ENV=/home/vscode/.venv
 ENV PATH="/home/vscode/.venv/bin:$PATH"
 
-# Claude Code
+# Install Claude Code (native installer, no Node.js required)
 RUN curl -fsSL https://claude.ai/install.sh | bash
+
+# Shell config for interactive sessions
+RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc \
+    && echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' >> ~/.bashrc \
+    && echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc \
+    && echo 'export VIRTUAL_ENV="$HOME/.venv"' >> ~/.bashrc \
+    && echo 'export PATH="$HOME/.venv/bin:$PATH"' >> ~/.bashrc
+
+# Workspace mount point
+WORKDIR /workspaces
+
+CMD ["bash"]
 ```
 
 A few things worth noting:
@@ -127,12 +149,15 @@ This runs once when the container is first created:
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Git: mark workspace as safe (containers mount as different owner)
+user_name="Claude Code User"
+user_email="vscode@claude-code-sandbox-$(hostname)"
+
+# Git: mark workspace as safe
 git config --global --add safe.directory "/workspaces/$(basename "$PWD")"
 
 # Git: set user identity
-git config --global user.name "Claude Code User"
-git config --global user.email "vscode@claude-code-sandbox-$(hostname)"
+git config --global user.name "$user_name"
+git config --global user.email "$user_email"
 git config --global init.defaultBranch main
 
 # SSH: add GitHub to known_hosts
@@ -141,9 +166,15 @@ ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
 
 # SSH: generate key if none exists
 if [ ! -f ~/.ssh/id_ed25519 ]; then
-    ssh-keygen -t ed25519 -C "vscode@$(hostname)" -f ~/.ssh/id_ed25519 -N ""
-    echo "New SSH key — add to GitHub:"
-    cat ~/.ssh/id_ed25519.pub
+    ssh-keygen -t rsa -b 4096 -C $user_email -f ~/.ssh/id_rsa -N ""
+    echo ""
+    echo "========================================="
+    echo "New SSH key generated. Add it to GitHub:"
+    echo "========================================="
+    cat ~/.ssh/id_rsa.pub
+    echo "========================================="
+    echo "https://github.com/settings/ssh/new"
+    echo "========================================="
 fi
 ```
 
