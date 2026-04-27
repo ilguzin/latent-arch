@@ -197,4 +197,4 @@ In [**Part 1.5**]({{< ref "teaching-kid-programming-with-ai-part-1-5" >}}), I'll
 1. **The Setup** (you are here) — Discord + OpenClaw + Claude API
 2. [The $20 Session]({{< ref "teaching-kid-programming-with-ai-part-1-5" >}}) — why it cost too much and the pivot
 3. [The Dev Container]({{< ref "teaching-kid-programming-with-ai-part-2" >}}) — the actual setup and one month in
-4. Lessons Learned *(coming soon)*
+4. [From Side Project to Product]({{< ref "teaching-kid-programming-with-ai-part-3" >}}) — lessons learned and the birth of CodePal
