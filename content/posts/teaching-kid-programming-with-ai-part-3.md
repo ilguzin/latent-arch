@@ -89,7 +89,7 @@ Whether that's enough to build a business on is a different question. But it's n
 
 This is the last post in the "Teaching My Kid Programming with AI" series — at least in its current form. The experiment succeeded beyond what I expected: Sasha's Codeforces rating has meaningfully improved, he's training daily without me nagging, and the whole thing turned into a product.
 
-I'll be posting updates on CodePal's progress separately — how the platform evolves, what I learn from a broader user base, and whether the pedagogical principles that worked for one student generalize to many. If you're interested in competitive programming, AI tutoring, or just want to see how a side project turns into a product, stay tuned.
+I'll be posting updates on CodePal's progress separately — how the platform evolves, what I learn from a broader user base, and whether the pedagogical principles that worked for one student generalize to many. I also plan to revisit the tutoring mechanics in depth — things like optimal session length, which Socratic patterns actually move the needle, how different students respond to the "no free answers" rule — once there's enough real-user data to draw meaningful conclusions rather than anecdotes from a sample size of one. If you're interested in competitive programming, AI tutoring, or just want to see how a side project turns into a product, stay tuned.
 
 You can try CodePal at [codepal.ru](http://codepal.ru) — there's a free tier to see if the approach works for you.
 
