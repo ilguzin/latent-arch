@@ -54,7 +54,7 @@ The demand was obvious. The solution — an AI competitive programming tutor —
 
 ## Building CodePal
 
-So I built [CodePal](http://codepal.ru).
+So I built [CodePal](https://codepal.ru/?utm_source=latent-arch&utm_medium=blog&utm_campaign=teaching-kid-programming-part-3).
 
 The idea: take everything I learned from three months of AI tutoring and package it into a web platform that anyone can use. No server setup, no Docker, no system prompts — just open a browser and start a session.
 
@@ -91,7 +91,7 @@ This is the last post in the "Teaching My Kid Programming with AI" series — at
 
 I'll be posting updates on CodePal's progress separately — how the platform evolves, what I learn from a broader user base, and whether the pedagogical principles that worked for one student generalize to many. I also plan to revisit the tutoring mechanics in depth — things like optimal session length, which Socratic patterns actually move the needle, how different students respond to the "no free answers" rule — once there's enough real-user data to draw meaningful conclusions rather than anecdotes from a sample size of one. If you're interested in competitive programming, AI tutoring, or just want to see how a side project turns into a product, stay tuned.
 
-You can try CodePal at [codepal.ru](http://codepal.ru) — there's a free tier to see if the approach works for you.
+You can try CodePal at [codepal.ru](https://codepal.ru/?utm_source=latent-arch&utm_medium=blog&utm_campaign=teaching-kid-programming-part-3) — there's a free tier to see if the approach works for you.
 
 ---
 
