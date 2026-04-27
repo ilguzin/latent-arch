@@ -23,7 +23,7 @@ Unlike ChatGPT or generic coding assistants, CodePal doesn't give answers. It us
 
 ## Why I Built This
 
-This project grew out of a real need. My son is 13 and preparing for regional programming olympiads. He has a great teacher, but sessions are once a week. Between lessons, he needs daily practice with someone who can guide — not just check answers.
+This project grew out of a real need. I mentor a competitive programming student preparing for regional olympiads. He has a great teacher, but sessions are once a week. Between lessons, he needs daily practice with someone who can guide — not just check answers.
 
 I tried general-purpose AI tools. They either give the solution outright (killing the learning) or lack the competitive programming context. So I built a specialized tutor that knows the domain and teaches through thinking.
 
