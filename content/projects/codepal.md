@@ -10,7 +10,7 @@ weight: 1
 
 ## What is CodePal?
 
-[CodePal](http://codepal.ru) is an AI training partner for competitive programming. It helps students prepare for Codeforces contests, ICPC regionals, and national olympiads — at a fraction of the cost of a private tutor.
+[CodePal](https://codepal.ru/?utm_source=latent-arch&utm_medium=project-page&utm_campaign=projects-codepal) is an AI training partner for competitive programming. It helps students prepare for Codeforces contests, ICPC regionals, and national olympiads — at a fraction of the cost of a private tutor.
 
 Unlike ChatGPT or generic coding assistants, CodePal doesn't give answers. It uses the **Socratic method**: asking guiding questions, nudging the student toward the solution, and building real problem-solving skills.
 
@@ -38,4 +38,4 @@ More about the journey: [Teaching My Kid Programming with AI](/posts/teaching-ki
 
 ## Try It
 
-[codepal.ru](http://codepal.ru) — free tier available (1 session/month).
+[codepal.ru](https://codepal.ru/?utm_source=latent-arch&utm_medium=project-page&utm_campaign=projects-codepal) — free tier available (1 session/month).
