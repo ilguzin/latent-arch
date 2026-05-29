@@ -62,34 +62,34 @@ A team with only the product leg validates one hypothesis a month while the AI-n
 
 ## The reframe
 
-Zombie team and AI-native team aren't two points on a "technology" scale. They're different **mental models of how work works**:
+Zombie team and live team aren't two points on a "technology" scale. They're different **mental models of how work works** — and you see the split on the product side and the engineering side at once:
 
 | Zombie | Live |
 |---|---|
 | Managed by random signals from above | Managed from capacity and product |
 | Idea → weakest executor | Idea → quick prototype, hypothesis in a day |
 | Initiative is dangerous — punished | Initiative *is* the work |
-| Hires by checklist: "Python 5+ / AWS / Docker" | Hires by ability to orchestrate agents |
+| Hires by checklist: "Python 5+ / AWS / Docker" | Hires for agent orchestration and product ownership |
 | Release = sprint = "someday" | Release = day = "in prod today" |
 | Metric = reporting | Metric = live users |
 
-A zombie team can't hire an AI-native engineer even if it tries — can't recognize one in the interview, can't give work at their tempo, drowns them in approvals. An AI-native engineer who lands there either regresses or leaves. Usually leaves.
+And here's the trap: a zombie team can't grow into either branch, however much it wants to. It can't become product-driven — owning outcomes, killing hypotheses on a criterion, putting engineers in front of users all run on initiative, and initiative is exactly what it punishes by reflex. It can't go AI-native either — it can't even hire its way there, because it doesn't recognize an AI-native engineer in the interview, can't give them work at their tempo, and buries them in approvals. Same management core, both directions, same wall. The people who'd actually move it — the engineer running four agents, the builder who owns a metric end to end — either rot there or walk. Mostly walk.
 
-If you, as an engineer, feel there's no one to talk to about tokens, specs, and agent orchestration — that's a symptom. If the eight signs above stack on top — that's a diagnosis.
+If there's no one around to talk to about the things your work actually runs on — tokens, specs, agent orchestration if you build, or user metrics, hypotheses, outcomes if you do product — that's a symptom. If the eight signs above pile on top, that's the diagnosis. Doesn't matter which side you're on; a zombie team starves both.
 
 ## What to do
 
 **CEO of a zombie team:**
 
 - Don't "improve the process." The process isn't the root — the management's composition and mental model is.
-- Replace part of the management with people who themselves work with agents and understand AI-native. That's the only intervention that actually works.
+- Replace part of the management with people who do both themselves — work with agents hands-on *and* think in metrics and hypotheses. Miss one and the transition stalls on that side. It's the only intervention that actually works.
 - Half-measures — training, AI-tool rollouts, "let's all use Copilot" — on top of an unchanged management core are wasted money and a wasted year.
 
-**Engineer on a zombie team:**
+**Engineer or product person on a zombie team** — the playbook is the same:
 
 - Step 1: flag the problem to the CEO. Once. Concretely. With examples. That's your honest attempt.
-- Step 2: if nothing happens in 1–2 months — **leave**. Not "look around." Leave. Time on a zombie team is atrophy.
-- A live AI-native engineer is worth €130–180k+ on the 2026 market. Every month here is roughly **–€10k of optionality** on your résumé.
+- Step 2: if nothing happens in 1–2 months — **leave**. Not "look around." Leave. Time on a zombie team is atrophy: your agent fluency rots, or your product instinct does, depending on what you came in with.
+- You're worth €130–180k+ on the 2026 market whether you orchestrate agents or own a metric end to end. Every month here is roughly **–€10k of optionality** on your résumé.
 - 3–6 months of runway is enough to move into a live team. "Save up for another year" is the zombie talking.
 
 ## The hard line
