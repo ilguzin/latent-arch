@@ -4,6 +4,9 @@ title = 'Latent Arch'
 theme = 'PaperMod'
 
 [params]
+  # Явно, иначе Hugo берёт секцию с наибольшим числом страниц (стала ai-news,
+  # чьи карточки исключены из глобальных списков) — и главная остаётся пустой
+  mainSections = ['posts']
   author = 'Denis Ilguzin'
   description = 'Software Architect · Engineering Leader · AI Engineering · 20 years in tech'
   ShowReadingTime = true
