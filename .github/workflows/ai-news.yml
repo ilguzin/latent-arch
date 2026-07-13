@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: '30 5 * * *'   # ежедневно 05:30 UTC (время примерное — shared runners могут задерживать)
   workflow_dispatch: {}
+  # ВРЕМЕННО: триггер для тестового запуска из sandbox без API-токена. Убрать после проверки.
+  push:
+    paths:
+      - '.github/workflows/ai-news.yml'
 
 permissions:
   contents: write   # push карточек
