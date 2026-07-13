@@ -13,12 +13,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT_DIR = path.join(ROOT, "content", "ai-news");
 const SOURCES_FILE = path.join(ROOT, "scripts", "ai-news-sources.json");
 
-const DRY_RUN = process.argv.includes("--dry-run");
-const OPENROUTER_MODEL = process.env.OPENROUTER_MODEL ?? "anthropic/claude-opus-4.8";
-const WINDOW_HOURS = Number(process.env.WINDOW_HOURS ?? 48);
-const MAX_PICKS = Number(process.env.MAX_PICKS ?? 5);
-const MAX_CARDS = Number(process.env.MAX_CARDS ?? 50);
-const MAX_PER_SOURCE = 15;
+// Все ручки скрипта в одном месте: env-переменные (со значениями по умолчанию) + флаги CLI.
+const CONFIG = {
+  // OpenRouter
+  openrouterApiKey: process.env.OPENROUTER_API_KEY ?? "", // обязателен без --dry-run
+  openrouterModel: process.env.OPENROUTER_MODEL ?? "anthropic/claude-opus-4.8", // слаг из openrouter.ai/models
+  // Сбор
+  windowHours: Number(process.env.WINDOW_HOURS ?? 48), // брать статьи не старше N часов
+  maxPicks: Number(process.env.MAX_PICKS ?? 5), // сколько новостей модель отбирает за тик
+  maxCards: Number(process.env.MAX_CARDS ?? 50), // retention: максимум карточек в content/ai-news/
+  maxPerSource: 15, // не тащить весь бэклог фида
+  // CLI
+  dryRun: process.argv.includes("--dry-run"),
+};
 
 const parser = new Parser();
 
@@ -48,7 +55,7 @@ function readExistingCards() {
 
 async function fetchCandidates(knownUrls) {
   const { sources } = JSON.parse(fs.readFileSync(SOURCES_FILE, "utf8"));
-  const cutoff = Date.now() - WINDOW_HOURS * 3600 * 1000;
+  const cutoff = Date.now() - CONFIG.windowHours * 3600 * 1000;
   const candidates = [];
   const seen = new Set(knownUrls);
 
@@ -68,7 +75,7 @@ async function fetchCandidates(knownUrls) {
     }
     let taken = 0;
     for (const item of feed.items ?? []) {
-      if (taken >= MAX_PER_SOURCE) break;
+      if (taken >= CONFIG.maxPerSource) break;
       const link = (item.link ?? "").trim();
       const pubDate = item.isoDate ?? item.pubDate;
       if (!link || !item.title || !pubDate) continue;
@@ -90,7 +97,7 @@ async function fetchCandidates(knownUrls) {
 }
 
 async function curate(candidates) {
-  if (!process.env.OPENROUTER_API_KEY) {
+  if (!CONFIG.openrouterApiKey) {
     throw new Error("OPENROUTER_API_KEY не задан (для запуска без LLM используй --dry-run)");
   }
 
@@ -118,49 +125,80 @@ async function curate(candidates) {
     additionalProperties: false,
   };
 
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    signal: AbortSignal.timeout(180000),
-    headers: {
-      authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      "content-type": "application/json",
-      "http-referer": "https://latent-arch.com",
-      "x-title": "latent-arch ai-news",
-    },
-    body: JSON.stringify({
-      model: OPENROUTER_MODEL,
-      max_tokens: 8000,
-      response_format: {
-        type: "json_schema",
-        json_schema: { name: "picks", strict: true, schema },
+  const post = (body) =>
+    fetch("https://openrouter.ai/api/v1/responses", {
+      method: "POST",
+      signal: AbortSignal.timeout(180000),
+      headers: {
+        authorization: `Bearer ${CONFIG.openrouterApiKey}`,
+        "content-type": "application/json",
+        "http-referer": "https://latent-arch.com",
+        "x-title": "latent-arch ai-news",
       },
-      messages: [
-        {
-          role: "system",
-          content:
-            "You curate an AI news section on a personal engineering blog (latent-arch.com). " +
-            "The audience is software engineers following AI progress. Respond with JSON only.",
-        },
-        {
-          role: "user",
-          content:
-            `Below are ${candidates.length} candidate news items collected from RSS feeds. ` +
-            `Select up to ${MAX_PICKS} of the most significant ones: model releases, major product/tool launches, ` +
-            `notable research, and important industry news. Skip minor updates, marketing fluff, and listicles. ` +
-            `If several items cover the same story, pick one (prefer the primary source). ` +
-            `If fewer than ${MAX_PICKS} items are genuinely significant, pick fewer — an empty list is acceptable. ` +
-            `For each pick write a neutral 1-2 sentence English summary of what happened and why it matters.\n\n${list}`,
-        },
-      ],
-    }),
-  });
+      body: JSON.stringify(body),
+    });
+
+  const body = {
+    model: CONFIG.openrouterModel,
+    max_output_tokens: 8000,
+    input: [
+      {
+        type: "message",
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text:
+              "You curate an AI news section on a personal engineering blog (latent-arch.com). " +
+              "The audience is software engineers following AI progress. Respond with JSON only " +
+              "(no code fences), matching this shape: {\"picks\": [{\"index\": number, \"summary\": string}]}.",
+          },
+        ],
+      },
+      {
+        type: "message",
+        role: "user",
+        content: [
+          {
+            type: "input_text",
+            text:
+              `Below are ${candidates.length} candidate news items collected from RSS feeds. ` +
+              `Select up to ${CONFIG.maxPicks} of the most significant ones: model releases, major product/tool launches, ` +
+              `notable research, and important industry news. Skip minor updates, marketing fluff, and listicles. ` +
+              `If several items cover the same story, pick one (prefer the primary source). ` +
+              `If fewer than ${CONFIG.maxPicks} items are genuinely significant, pick fewer — an empty list is acceptable. ` +
+              `For each pick write a neutral 1-2 sentence English summary of what happened and why it matters.\n\n${list}`,
+          },
+        ],
+      },
+    ],
+    // Structured output в OpenAI-совместимом формате Responses API. В доках OpenRouter
+    // для этой беты text.format не описан — при 400 на это поле повторяем без него
+    // (схема ответа продублирована в system-инструкции выше).
+    text: { format: { type: "json_schema", name: "picks", strict: true, schema } },
+  };
+
+  let res = await post(body);
   if (!res.ok) {
-    throw new Error(`OpenRouter HTTP ${res.status}: ${(await res.text()).slice(0, 500)}`);
+    const errText = (await res.text()).slice(0, 500);
+    if (res.status === 400 && /\btext\b|format|json_schema/i.test(errText)) {
+      console.warn(`WARN: text.format не принят (${errText}), повтор без structured output`);
+      delete body.text;
+      res = await post(body);
+    }
+    if (!res.ok) throw new Error(`OpenRouter HTTP ${res.status}: ${(await res.text()).slice(0, 500)}`);
   }
   const data = await res.json();
   if (data.error) throw new Error(`OpenRouter error: ${JSON.stringify(data.error).slice(0, 500)}`);
-  const text = data.choices?.[0]?.message?.content ?? "";
-  // На случай, если модель обернёт JSON в code fence, несмотря на response_format
+
+  const message = (data.output ?? []).find((o) => o.type === "message");
+  const text =
+    (message?.content ?? [])
+      .filter((c) => c.type === "output_text")
+      .map((c) => c.text)
+      .join("") || data.output_text || "";
+  if (!text) throw new Error(`OpenRouter: пустой ответ (status=${data.status})`);
+  // На случай, если модель всё же обернёт JSON в code fence
   const { picks } = JSON.parse(text.replace(/^\s*```(?:json)?\s*|\s*```\s*$/g, ""));
   return picks.filter((p) => Number.isInteger(p.index) && candidates[p.index] && p.summary?.trim());
 }
@@ -188,7 +226,7 @@ function applyRetention() {
   const cards = readExistingCards()
     .filter((c) => c.date)
     .sort((a, b) => a.date.localeCompare(b.date)); // старые первыми
-  const excess = cards.length - MAX_CARDS;
+  const excess = cards.length - CONFIG.maxCards;
   for (let i = 0; i < excess; i++) {
     fs.unlinkSync(cards[i].file);
     console.log(`retention: удалена старая карточка ${path.basename(cards[i].file)}`);
@@ -197,9 +235,9 @@ function applyRetention() {
 
 const existing = readExistingCards();
 const candidates = await fetchCandidates(existing.map((c) => c.url));
-console.log(`Кандидатов после дедупа и окна ${WINDOW_HOURS}ч: ${candidates.length}`);
+console.log(`Кандидатов после дедупа и окна ${CONFIG.windowHours}ч: ${candidates.length}`);
 
-if (DRY_RUN) {
+if (CONFIG.dryRun) {
   console.log(JSON.stringify(candidates, null, 2));
   process.exit(0);
 }
