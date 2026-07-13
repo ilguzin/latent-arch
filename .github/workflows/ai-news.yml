@@ -33,9 +33,23 @@ jobs:
       - run: npm ci
 
       - name: Собрать и откурировать новости
-        run: node scripts/collect-ai-news.mjs
+        run: |
+          set -o pipefail
+          node scripts/collect-ai-news.mjs 2>&1 | tee /tmp/collect.log
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+      # ВРЕМЕННО: при падении закоммитить хвост лога, чтобы прочитать его без доступа к логам Actions.
+      # Убрать вместе с push-триггером после отладки.
+      - name: Диагностика при падении
+        if: failure()
+        run: |
+          git config user.name "AI News Bot"
+          git config user.email "actions@github.com"
+          tail -c 3000 /tmp/collect.log > ai-news-last-error.log
+          git add ai-news-last-error.log
+          git commit -m "ci: ai-news — лог падения (временно, удалить)"
+          git push
 
       - name: Закоммитить карточки
         id: commit
