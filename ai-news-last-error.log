@@ -1,11 +1,10 @@
-Кандидатов после дедупа и окна 48ч: 5
-file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:101
-    throw new Error("OPENROUTER_API_KEY не задан (для запуска без LLM используй --dry-run)");
-          ^
+file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:136
+        creator: (item.creator ?? item.author ?? "").replace(/\s+/g, " ").trim(),
+                                                     ^
 
-Error: OPENROUTER_API_KEY не задан (для запуска без LLM используй --dry-run)
-    at curate (file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:101:11)
-    at file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:246:23
+TypeError: (item.creator ?? item.author ?? "").replace is not a function
+    at fetchCandidates (file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:136:54)
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///home/runner/work/latent-arch/latent-arch/scripts/collect-ai-news.mjs:310:20
 
 Node.js v22.23.1
