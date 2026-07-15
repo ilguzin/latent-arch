@@ -12,9 +12,6 @@
 
 {{- range .RegularPages }}
 <article class="post-entry" data-link="{{ .Params.link }}">
-  <span class="ai-news-badge" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/></svg>
-  </span>
   <header class="entry-header">
     <h2 class="entry-hint-parent">{{ .Title }}</h2>
   </header>
@@ -25,6 +22,9 @@
        Источник — в конце, если не совпадает с автором (автор-fallback = источник). */}}
   {{- $card := . }}
   <footer class="entry-footer">
+    <span class="ai-news-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </span>
     <span title='{{ .Date }}'>{{ .Date | time.Format (default ":date_long" site.Params.DateFormat) }}</span>
     {{- with .Params.readingTime }}&nbsp;·&nbsp;<span>{{ i18n "read_time" . | default (printf "%d min" .) }}</span>{{- end }}
     {{- with .Params.author }}&nbsp;·&nbsp;<span>{{ . }}</span>{{- end }}
@@ -37,11 +37,10 @@
 <style>
   .ai-news-badge {
     display: none;
-    position: absolute;
-    bottom: 14px;
-    right: 16px;
-    width: 13px;
-    height: 13px;
+    float: right;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
     color: var(--secondary);
   }
   .ai-news-badge svg {
