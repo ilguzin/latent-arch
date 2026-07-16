@@ -98,6 +98,15 @@ async function fetchArticleMeta(url) {
   return { author, readingTime };
 }
 
+// RSS-парсер может отдать поле не строкой, а объектом ({ name }, { _: text }) или массивом
+function asText(value) {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return asText(value[0]);
+  if (typeof value === "object") return asText(value.name ?? value._ ?? "");
+  return String(value);
+}
+
 async function fetchCandidates(knownUrls) {
   const { sources } = JSON.parse(fs.readFileSync(SOURCES_FILE, "utf8"));
   const cutoff = Date.now() - CONFIG.windowHours * 3600 * 1000;
@@ -121,20 +130,21 @@ async function fetchCandidates(knownUrls) {
     let taken = 0;
     for (const item of feed.items ?? []) {
       if (taken >= CONFIG.maxPerSource) break;
-      const link = (item.link ?? "").trim();
+      const link = asText(item.link).trim();
+      const title = asText(item.title).trim();
       const pubDate = item.isoDate ?? item.pubDate;
-      if (!link || !item.title || !pubDate) continue;
+      if (!link || !title || !pubDate) continue;
       const ts = Date.parse(pubDate);
       if (Number.isNaN(ts) || ts < cutoff) continue;
       if (seen.has(link)) continue;
       seen.add(link);
       candidates.push({
-        title: item.title.trim(),
+        title,
         url: link,
         date: new Date(ts).toISOString(),
         source: source.name,
-        creator: (item.creator ?? item.author ?? "").replace(/\s+/g, " ").trim(),
-        snippet: (item.contentSnippet ?? "").replace(/\s+/g, " ").slice(0, 500),
+        creator: asText(item.creator ?? item.author).replace(/\s+/g, " ").trim(),
+        snippet: asText(item.contentSnippet).replace(/\s+/g, " ").slice(0, 500),
       });
       taken++;
     }
