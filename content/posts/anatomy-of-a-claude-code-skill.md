@@ -7,7 +7,7 @@ summary: "The story of a private meeting-minutes routine becoming a published Cl
 ShowToc: false
 ---
 
-Telemost drops a `.webm` into my downloads after every call. When I finally counted, there were eleven of them, going back to April. Eleven meetings where someone — usually me — said "I'll write this up," and then didn't.
+Zoom leaves an `.mp4` on my disk after every recorded call. When I finally counted, there were eleven of them, going back to April. Eleven meetings where someone — usually me — said "I'll write this up," and then didn't.
 
 For a while my fix was a duct-tape routine: a Whisper script I ran by hand, a summary prompt I kept pasting into Claude, and a folder convention that existed mostly in my head. It worked, in the sense that things I babysit personally always work. A few weeks ago I got tired of babysitting and turned the whole thing into a proper Claude Code skill. Then I did something slightly scarier: published it in a [plugin marketplace](https://github.com/latent-arch/claude-marketplace) I'd been meaning to start anyway.
 
