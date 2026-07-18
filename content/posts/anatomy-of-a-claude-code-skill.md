@@ -28,6 +28,8 @@ Two smaller decisions I'd made without noticing, and only articulated when I had
 
 Not distribution — let's be honest, a meeting-minutes skill isn't setting the world on fire. The value was in the exercise itself: turning a routine only I could run into something that works without me forced me to notice everything I'd been quietly doing by hand. I've [written before](/posts/autopilot-is-not-a-destination) that a personal agentic stack changes in kind the moment a second copy runs in someone else's hands. A marketplace listing is the smallest version of that moment I've found — no contract, no hire, just your workflow executing in a repo you'll never see, without you there to explain what you meant.
 
+And fine, there's a simpler motive too: I hope it saves somebody money. Paid transcription services charge a subscription for what Whisper does on your own CPU for free — and for meeting minutes, free is plenty.
+
 ## Try it
 
 ```
