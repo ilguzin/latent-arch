@@ -1,6 +1,13 @@
 {{- /* Head custom content area — добавляй сюда кастомные скрипты/стили */ -}}
 
-{{- /* Google Fonts: IBM Plex Sans (body + заголовки), JetBrains Mono (код + мета) */ -}}
+{{- /* Google Fonts: Literata (серифный текст, ≈ Iowan Old Style BT у thinkingmachines.ai),
+      Inter (UI/навигация/мета, ≈ GT America), Chakra Petch (логотип — тот же
+      шрифт, что у логотипа thinkingmachines.ai). */ -}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&family=Inter:wght@400;500;600&family=Chakra+Petch:wght@400;500&display=swap" rel="stylesheet">
+
+{{- /* На главной логотип в шапке дублирует hero-wordmark — прячем (как у TM) */ -}}
+{{- if .IsHome }}
+<style>.logo > a { display: none; }</style>
+{{- end }}

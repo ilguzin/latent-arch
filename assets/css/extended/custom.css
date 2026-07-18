@@ -1,144 +1,240 @@
 /* =============================================================
-   Latent Arch — Nord GitHub Theme
-   Палитра Nord, GitHub-подобная структура, badge-теги
+   Latent Arch — редакционная тема в духе thinkingmachines.ai
+   Серифный текст (Literata ≈ Iowan Old Style BT), сансериф для
+   UI (Inter ≈ GT America), белый фон, тёплые серые из gruvbox.
    ============================================================= */
 
-/* --- Светлая тема (Snow Storm) --- */
+/* --- Светлая тема --- */
 :root {
-    --nord0: #2E3440;
-    --nord1: #3B4252;
-    --nord2: #434C5E;
-    --nord3: #4C566A;
-    --nord4: #D8DEE9;
-    --nord5: #E5E9F0;
-    --nord6: #ECEFF4;
-    --nord7: #8FBCBB;
-    --nord8: #88C0D0;
-    --nord9: #81A1C1;
-    --nord10: #5E81AC;
-    --nord11: #BF616A;
-    --nord12: #D08770;
-    --nord13: #EBCB8B;
-    --nord14: #A3BE8C;
-    --nord15: #B48EAD;
+    --bg-primary: #ffffff;
+    --bg-code: #f3f3f2;
+    --text-primary: #282828;
+    --text-secondary: #6b6866;
+    --text-content: #3c3836;
+    --accent: #282828;
+    --border: #e5e2dc;
+    --selection-bg: #ebdbb2;
+    --selection-fg: #282828;
 
-    --bg-primary: #F2F4F8;
-    --bg-card: #FFFFFF;
-    --bg-code: #F7F9FC;
-    --bg-badge: var(--nord5);
-    --text-primary: var(--nord0);
-    --text-secondary: var(--nord3);
-    --text-content: var(--nord1);
-    --accent: var(--nord10);
-    --accent-hover: var(--nord9);
-    --border: var(--nord4);
-    --border-hover: var(--nord9);
-    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-    --radius: 6px;
-    --shadow-card: 0 1px 3px rgba(46, 52, 64, 0.06);
-    --shadow-card-hover: 0 4px 12px rgba(46, 52, 64, 0.1);
+    /* Палитра кода — как у thinkingmachines.ai (syntax.css) */
+    --code-inline: #ad2111;
+    --code-red: #cb071d;
+    --code-green: #7eac21;
+    --code-yellow: #a47d00;
+    --code-blue: #0277aa;
+    --code-magenta: #ae166b;
+    --code-aqua: #1b8ea6;
+    --code-orange: #c44d5a;
+    --code-comment: #6f7d8d;
+    --code-namespace: #6b1e3c;
+
+    /* Переменные PaperMod: фон кода должен быть наш, а не тёмный дефолт */
+    --code-bg: var(--bg-code);
+    --code-block-bg: var(--bg-code);
+
+    --font-serif: 'Literata', 'Iowan Old Style', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    --radius: 4px;
 }
 
-/* --- Тёмная тема (Polar Night) --- */
-[data-theme="dark"] {
-    --bg-primary: var(--nord0);
-    --bg-card: var(--nord1);
-    --bg-code: #2A2F3A;
-    --bg-badge: var(--nord2);
-    --text-primary: var(--nord6);
-    --text-secondary: var(--nord4);
-    --text-content: var(--nord5);
-    --accent: var(--nord8);
-    --accent-hover: var(--nord7);
-    --border: var(--nord2);
-    --border-hover: var(--nord8);
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2);
-    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+/* --- Тёмная тема (селектор :root[...] — чтобы перебить theme-vars PaperMod) --- */
+:root[data-theme="dark"] {
+    --bg-primary: #1d2021;
+    --bg-code: #282828;
+    --text-primary: #ebdbb2;
+    --text-secondary: #a89984;
+    --text-content: #d5c4a1;
+    --accent: #ebdbb2;
+    --border: #3c3836;
+    --selection-bg: #504945;
+    --selection-fg: #ebdbb2;
+
+    /* Палитра кода — gruvbox-акценты в тон тёмной темы */
+    --code-inline: #fb4934;
+    --code-red: #fb4934;
+    --code-green: #b8bb26;
+    --code-yellow: #fabd2f;
+    --code-blue: #83a598;
+    --code-magenta: #d3869b;
+    --code-aqua: #8ec07c;
+    --code-orange: #fe8019;
+    --code-comment: #928374;
+    --code-namespace: #d3869b;
+
+    --code-bg: var(--bg-code);
+    --code-block-bg: var(--bg-code);
 }
 
-/* --- Transitions --- */
-body, .post-entry, .nav, header, footer, code, pre, .post-meta {
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+/* PaperMod красит body.list (главная, списки) в var(--code-bg) —
+   у нас все страницы на одном основном фоне, как у TM */
+.list,
+:root[data-theme="dark"] .list {
+    background: var(--bg-primary);
+}
+
+/* Якоря не должны прятаться под липкой шапкой */
+html {
+    scroll-padding-top: calc(54px + 1.5rem);
+}
+
+body {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* =============================================================
    Типографика
    ============================================================= */
 
-body {
-    font-family: var(--font-sans);
-    font-size: 19px;
-    line-height: 1.75;
-    color: var(--text-primary);
-    background: var(--bg-primary);
-}
-
 h1, h2, h3, h4 {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     color: var(--text-primary);
     line-height: 1.35;
     font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
-h1 {
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-h2 {
-    font-size: 1.5rem;
-}
-
-h3 {
-    font-size: 1.25rem;
-}
-
-h4 {
-    font-size: 1.1rem;
-}
+h1 { font-size: 32px; }
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 17px; }
 
 .post-content p {
     margin-bottom: 1.4em;
     color: var(--text-content);
 }
 
-/* --- Ссылки --- */
+.post-content ul,
+.post-content ol {
+    color: var(--text-content);
+}
+
+/* --- Ссылки: сдержанные, подчёркивание в тексте --- */
 a {
     color: var(--accent);
     text-decoration: none;
+}
+
+.post-content a {
+    text-decoration: underline;
+    text-decoration-color: var(--text-secondary);
+    text-underline-offset: 3px;
     transition: color 0.15s ease;
 }
 
+.post-content a:hover {
+    color: var(--text-secondary);
+}
+
 a:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--text-secondary);
 }
 
 /* =============================================================
-   Код
+   UI-элементы — сансериф
    ============================================================= */
 
+.nav a,
+.logo a,
+button,
+.top-link,
+.paginav,
+footer {
+    font-family: var(--font-sans);
+}
+
+/* --- Header в стиле thinkingmachines.ai: липкая шапка,
+       логотип капсом в Chakra Petch --- */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+}
+
+.nav {
+    position: relative;
+    line-height: 54px;
+}
+
+/* Переключатель темы — в дальнем правом краю шапки, после навигации */
+.logo-switches {
+    position: absolute;
+    right: var(--gap);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#menu {
+    margin-inline-end: calc(var(--gap) + 52px);
+}
+
+.nav a {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+#menu a:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text-primary) 25%, transparent);
+    text-underline-offset: 3px;
+}
+
+.logo a {
+    font-family: 'Chakra Petch', var(--font-sans);
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.logo a:hover {
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* --- Мета-инфо: маленькие капс-лейблы --- */
+.post-meta {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+}
+
+/* =============================================================
+   Код — сниппеты в стиле thinkingmachines.ai: мягкий серый фон
+   без рамки, чип языка в углу, лаконичная светлая подсветка
+   ============================================================= */
+
+/* Инлайн-код: цветом, без плашки */
 code {
     font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--bg-code);
-    padding: 0.2em 0.45em;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    color: var(--text-primary);
+    font-size: 0.9em;
+    background: transparent;
+    padding: 0 0.15em;
+    border: none;
+    border-radius: 0;
+    color: var(--code-inline);
 }
 
 pre {
     font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--bg-code);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1em 1.2em;
+    background: var(--bg-code) !important;
+    border: none;
+    border-radius: 0.45rem;
+    padding: 1rem;
     overflow-x: auto;
-    line-height: 1.6;
+    font-variant-ligatures: none;
 }
 
 pre code {
@@ -146,91 +242,584 @@ pre code {
     padding: 0;
     border: none;
     border-radius: 0;
-    font-size: inherit;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-content);
 }
 
+/* Перебиваем правила PaperMod той же специфичностью (.post-content …) */
+.post-content code {
+    margin: 0;
+    padding: 0 0.15em;
+    background: transparent;
+    border-radius: 0;
+    color: var(--code-inline);
+    font-size: 0.9em;
+    line-height: inherit;
+}
+
+.post-content pre code {
+    padding: 0;
+    background: none !important;
+    color: var(--text-content);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.post-content .highlight:not(table) {
+    border-radius: 0.45rem;
+    background: var(--bg-code) !important;
+}
+
+/* Чип языка в левом верхнем углу блока */
+pre:has(> code[data-lang]) {
+    padding-top: 2.1rem;
+}
+
+pre > code[data-lang]::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0.5rem;
+    left: 0.85rem;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+/* Кнопка копирования (PaperMod .copy-code) — прозрачная, в стиле TM */
+.copy-code {
+    top: 0.4rem;
+    right: 0.4rem;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.3rem;
+}
+
+.copy-code:hover {
+    background: rgba(128, 128, 128, 0.12);
+    color: var(--text-primary);
+}
+
+/* --- Подсветка Chroma (маппинг токенов как у TM) ---
+   Важно: PaperMod бандлит свой тёмный chroma-styles.css (Catppuccin),
+   поэтому переопределяем ВСЕ классы токенов, а не только цветные */
+.chroma { color: var(--text-content); background: transparent !important; }
+.chroma .n, .chroma .l, .chroma .ld,
+.chroma .go, .chroma .gp { color: var(--text-content); }
+.chroma .x, .chroma .g, .chroma .w, .chroma .nx { color: var(--text-secondary); }
+.chroma .nv, .chroma .vc, .chroma .vg,
+.chroma .vi, .chroma .vm { color: var(--text-primary); }
+.chroma .py { color: var(--code-orange); }
+.chroma .ni, .chroma .nl { color: var(--code-aqua); }
+.chroma .hl { background: color-mix(in srgb, var(--text-secondary) 14%, transparent); }
+.chroma .lnt, .chroma .ln { color: var(--text-secondary); }
+.chroma .err { color: var(--code-red); }
+.chroma .k, .chroma .kn, .chroma .kp, .chroma .kr,
+.chroma .na, .chroma .nt, .chroma .nb, .chroma .bp, .chroma .ne,
+.chroma .nf, .chroma .fm,
+.chroma .sa, .chroma .dl, .chroma .se { color: var(--code-blue); }
+.chroma .nd { color: var(--code-blue); font-weight: bold; }
+.chroma .kc { color: var(--code-magenta); }
+.chroma .kd, .chroma .kt { color: var(--code-red); }
+.chroma .nc, .chroma .no { color: var(--code-yellow); }
+.chroma .nn { color: var(--code-namespace); }
+.chroma .s, .chroma .sb, .chroma .sc, .chroma .s2,
+.chroma .si, .chroma .sx, .chroma .s1, .chroma .ss { color: var(--code-green); }
+.chroma .sr { color: var(--code-aqua); }
+.chroma .sd, .chroma .sh { color: var(--text-content); }
+.chroma .m, .chroma .mb, .chroma .mf, .chroma .mh,
+.chroma .mi, .chroma .il, .chroma .mo { color: var(--code-red); }
+.chroma .o, .chroma .ow { color: color-mix(in srgb, var(--text-content) 70%, transparent); }
+.chroma .p { color: color-mix(in srgb, var(--text-content) 85%, var(--bg-primary)); }
+.chroma .c, .chroma .ch, .chroma .cm, .chroma .c1,
+.chroma .cs, .chroma .cp { color: var(--code-comment); font-style: normal; }
+.chroma .cpf { color: var(--code-comment); font-weight: bold; }
+.chroma .gd, .chroma .gr, .chroma .gt { color: var(--code-red); }
+.chroma .gi { color: var(--code-green); }
+.chroma .gh, .chroma .gu { color: var(--code-orange); font-weight: bold; }
+.chroma .ge { font-style: italic; }
+.chroma .gs { font-weight: bold; }
+
 /* =============================================================
-   Карточки постов (GitHub-стиль)
+   Список постов — без карточек, простые записи с разделителями
    ============================================================= */
 
 .post-entry {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-card);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1.6em 0;
+    margin-bottom: 0;
 }
 
 .post-entry:hover {
-    border-color: var(--border-hover);
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: none;
+}
+
+.first-entry {
+    border-bottom: 1px solid var(--border);
+    padding: 1.6em 0 2em;
 }
 
 .entry-header h2 {
+    font-family: var(--font-serif);
     font-weight: 600;
-    color: var(--accent);
-}
-
-.entry-header h2:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-/* --- Мета-инфо --- */
-.post-meta {
-    font-family: var(--font-mono);
-    font-size: 0.8em;
-    color: var(--text-secondary);
-}
-
-.post-description {
-    color: var(--text-secondary);
-    font-size: 0.95em;
+    font-size: 22px;
+    color: var(--text-primary);
 }
 
 /* =============================================================
-   Теги (badge-стиль GitHub)
+   Hero главной — как у thinkingmachines.ai: двухстрочный wordmark
+   в Chakra Petch, «плавает» и переливается вращающимся градиентом
+   ============================================================= */
+
+.home-info {
+    text-align: center;
+    border-bottom: none;
+    padding: 3rem 0 1.6rem;
+    animation: hero-fade-in 0.6s ease-in-out;
+}
+
+.home-info .entry-header h1 {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    /* «LATENT ARCH» ломается в две строки — как Thinking / Machines.
+       word-break: normal перебивает break-word из PaperMod, иначе
+       min-content схлопывается до одной буквы */
+    width: min-content;
+    word-break: normal;
+    overflow-wrap: normal;
+    font-family: 'Chakra Petch', var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(3em, 8vw, 3.4em);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    /* Рамка в цвет фона маскирует кромку blend-слоя (иначе по краям
+       бокса мигают тонкие серые линии), как у оригинала TM */
+    border: 1px solid var(--bg-primary);
+    backface-visibility: hidden;
+    /* Блендинг замыкается на фоне h1 — без этого кромки слоя
+       мигают серыми линиями поверх фона страницы */
+    isolation: isolate;
+    animation: hero-float 7s ease-in-out infinite;
+}
+
+/* Металлический перелив: вращающийся градиент поверх текста.
+   На белом фоне screen оставляет фон нетронутым и красит только буквы */
+.home-info .entry-header h1::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, #565151, #d2caca);
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+    animation: hero-grad-rotate 8s linear infinite;
+    pointer-events: none;
+}
+
+/* В тёмной теме screen-блендинг засвечивает фон — оставляем без перелива */
+:root[data-theme="dark"] .home-info .entry-header h1::after {
+    display: none;
+}
+
+/* Анонс последней статьи под wordmark — как home-announcement у TM */
+.home-announcement {
+    margin-top: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    max-width: 660px;
+    margin-inline: auto;
+}
+
+.home-announcement .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0 8px;
+    height: 26px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 100px;
+    transition: background-color 0.2s ease;
+}
+
+:root[data-theme="dark"] .home-announcement .pill {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.home-announcement .announcement-text {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+.home-announcement:hover .announcement-text {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text-primary) 25%, transparent);
+    text-underline-offset: 3px;
+}
+
+.home-announcement:hover .pill {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="dark"] .home-announcement:hover .pill {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Короткое саммари статьи под анонсом */
+.home-summary {
+    max-width: 560px;
+    margin: 0.9rem auto 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+/* Саммари блога вместо ленты постов (контент из _index.md) */
+.home-info {
+    min-height: unset;
+}
+
+.home-about {
+    max-width: 660px;
+    margin: 1.5rem auto 0;
+    padding: 0 var(--gap) 3rem;
+}
+
+@keyframes hero-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes hero-float {
+    0% { transform: translateY(5px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(5px); }
+}
+
+@keyframes hero-grad-rotate {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-info,
+    .home-info .entry-header h1,
+    .home-info .entry-header h1::after {
+        animation: none;
+    }
+}
+
+.post-entry:hover .entry-header h2 {
+    color: var(--text-secondary);
+}
+
+.entry-content,
+.post-description {
+    font-family: var(--font-serif);
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+/* =============================================================
+   Теги — текстовые лейблы вместо бейджей
    ============================================================= */
 
 .post-tags a,
 .terms-tags a {
     display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.75em;
-    font-weight: 500;
-    padding: 0.15em 0.65em;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2em 0.7em;
     border-radius: 2em;
-    background: var(--bg-badge);
-    color: var(--accent);
+    background: transparent;
+    color: var(--text-secondary);
     border: 1px solid var(--border);
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+/* =============================================================
+   Prev/next в конце статьи — редакционно, без карточки:
+   линия сверху, капс-лейблы, серифные заголовки
+   ============================================================= */
+
+.paginav {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 1.4rem;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    line-height: 1.45;
+}
+
+.paginav a {
+    flex: 0 1 46%;
+    padding: 0;
+    border-radius: 0;
+}
+
+.paginav a:hover {
+    background: transparent;
+}
+
+.paginav .title {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.paginav br {
+    display: none;
+}
+
+.paginav a span:not(.title) {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: color 0.15s ease;
+}
+
+.paginav a:hover span:not(.title) {
+    color: var(--text-secondary);
+}
+
+.paginav .next {
+    margin-inline-start: auto;
+    text-align: right;
 }
 
 .post-tags a:hover,
 .terms-tags a:hover {
-    background: var(--accent);
-    color: var(--bg-card);
-    border-color: var(--accent);
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+    background: transparent;
     text-decoration: none;
 }
 
 /* =============================================================
-   Навигация
+   Hero-шапка статьи — в духе thinkingmachines.ai:
+   крупный центрированный заголовок на большую часть первого
+   экрана, байлайн под ним, каскадное fade-up появление
    ============================================================= */
 
-.nav a {
-    font-size: 0.9em;
-    font-weight: 500;
-    color: var(--text-primary);
-    padding: 0.3em 0.6em;
-    border-radius: var(--radius);
-    transition: background-color 0.15s ease, color 0.15s ease;
+.post-single .post-header {
+    text-align: center;
+    padding: 12vh 0 7vh;
 }
 
-.nav a:hover {
-    background: var(--bg-badge);
-    color: var(--accent);
-    text-decoration: none;
+.post-single .post-header .breadcrumbs {
+    display: none;
+}
+
+.post-single .post-title {
+    font-size: clamp(36px, 6.5vw, 60px);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-single .post-description {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 1.2rem auto 0;
+}
+
+.post-single .post-header .post-meta {
+    margin-top: 3rem;
+}
+
+@media (max-width: 700px) {
+    .post-single .post-header {
+        padding: 7vh 0 5vh;
+    }
+
+    .post-single .post-header .post-meta {
+        margin-top: 2rem;
+    }
+}
+
+/* --- Каскадное появление: заголовок → байлайн → текст --- */
+.post-single .post-title,
+.post-single .post-description,
+.post-single .post-header .post-meta,
+.post-single .post-content {
+    opacity: 0;
+    animation: hero-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.post-single .post-title { animation-delay: 0.05s; }
+.post-single .post-description { animation-delay: 0.2s; }
+.post-single .post-header .post-meta { animation-delay: 0.35s; }
+.post-single .post-content { animation-delay: 0.65s; }
+
+@keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-single .post-title,
+    .post-single .post-description,
+    .post-single .post-header .post-meta,
+    .post-single .post-content {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
+
+/* =============================================================
+   TOC — как у thinkingmachines.ai: фиксированный левый сайдбар
+   при скролле (на широких экранах), подсветка текущей секции
+   через JS в extend_footer.html
+   ============================================================= */
+
+.toc {
+    background: transparent;
+    border: none;
+}
+
+.toc summary {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+}
+
+.toc .inner {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 0.4rem 0.8rem;
+}
+
+.toc a {
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+}
+
+.toc a:hover,
+.toc a.active {
+    color: var(--text-primary);
+}
+
+.toc a.active {
+    font-weight: 500;
+}
+
+@media (min-width: 1300px) {
+    .post-single .toc {
+        position: fixed;
+        top: 130px;
+        left: calc((100vw - var(--main-width, 720px)) / 2 - 300px);
+        width: 250px;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+        margin: 0;
+        padding: 0;
+        scrollbar-width: thin;
+    }
+
+    /* Сайдбар появляется после hero-заголовка, вместе с текстом */
+    .post-single .toc {
+        opacity: 0;
+        animation: hero-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards;
+    }
+
+    /* Заголовок «Table of Contents» в сайдбаре не нужен —
+       список глав считывается и без него */
+    .post-single .toc summary {
+        display: none;
+    }
+
+    .post-single .toc .inner {
+        padding: 0;
+    }
+
+    .post-single .toc .inner ul {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .post-single .toc .inner ul ul {
+        padding-left: 0.9rem;
+    }
+
+    .post-single .toc .inner li {
+        margin: 0.35rem 0;
+        border-left: 2px solid transparent;
+        padding-left: 0.7rem;
+        transition: border-color 0.15s ease;
+    }
+
+    /* Маркер активной главы; в браузерах без :has() остаётся
+       подсветка цветом/весом из .toc a.active */
+    .post-single .toc .inner li:has(> a.active) {
+        border-left-color: var(--text-primary);
+    }
+
+    .post-single .toc .inner ul ul {
+        padding-left: 0.2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .post-single .toc {
+        opacity: 1;
+        animation: none;
+    }
 }
 
 /* =============================================================
@@ -238,16 +827,12 @@ pre code {
    ============================================================= */
 
 blockquote {
-    border-left: 3px solid var(--accent);
-    padding-left: 1em;
+    border-left: 2px solid var(--border);
+    padding-left: 1.2em;
     margin-left: 0;
     color: var(--text-secondary);
-    font-style: normal;
+    font-style: italic;
 }
-
-/* =============================================================
-   Горизонтальные линии
-   ============================================================= */
 
 hr {
     border: none;
@@ -256,46 +841,23 @@ hr {
 }
 
 /* =============================================================
-   Списки
+   Header / footer
    ============================================================= */
 
-.post-content ul,
-.post-content ol {
-    color: var(--text-content);
+/* Линия-разделитель: сайтовый хедер, шапка статьи и списков.
+   Не голый header — иначе цепляет entry-header в hero главной */
+.header,
+.post-header,
+.page-header {
+    border-bottom: 1px solid var(--border);
 }
 
-/* =============================================================
-   Footer
-   ============================================================= */
-
 footer {
-    font-size: 0.85em;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
-/* =============================================================
-   Выделение текста
-   ============================================================= */
-
 ::selection {
-    background: var(--nord9);
-    color: var(--nord6);
-}
-
-[data-theme="dark"] ::selection {
-    background: var(--nord8);
-    color: var(--nord0);
-}
-
-/* =============================================================
-   Header / лого
-   ============================================================= */
-
-.logo a {
-    font-weight: 700;
-}
-
-/* Разделитель под навигацией */
-header {
-    border-bottom: 1px solid var(--border);
+    background: var(--selection-bg);
+    color: var(--selection-fg);
 }

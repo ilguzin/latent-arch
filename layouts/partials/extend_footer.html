@@ -1,0 +1,82 @@
+{{- /* Footer custom content area — кастомные скрипты */ -}}
+
+{{- /* TOC-сайдбар: на широких экранах принудительно раскрываем details
+      и подсвечиваем текущую секцию при скролле (scroll-spy) */ -}}
+<script>
+  (function () {
+    var toc = document.querySelector('.post-single .toc');
+    if (!toc) return;
+
+    var details = toc.querySelector('details');
+    var wide = window.matchMedia('(min-width: 1300px)');
+    var syncOpen = function () {
+      if (wide.matches && details) details.setAttribute('open', '');
+    };
+    syncOpen();
+    wide.addEventListener('change', syncOpen);
+
+    var links = Array.prototype.slice.call(toc.querySelectorAll('a[href^="#"]'));
+    var pairs = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.hash.slice(1));
+      var h = document.getElementById(id);
+      if (h) pairs.push([h, a]);
+    });
+    if (!pairs.length) return;
+
+    var active = null;
+    var setActive = function (link) {
+      if (active !== link) {
+        if (active) active.classList.remove('active');
+        active = link;
+        active.classList.add('active');
+      }
+    };
+
+    var byHash = function (hash) {
+      var id = decodeURIComponent(hash).slice(1);
+      for (var i = 0; i < pairs.length; i++) {
+        if (pairs[i][0].id === id) return pairs[i][1];
+      }
+      return null;
+    };
+
+    // При переходе по якорю подсвечиваем целевую главу и держим её, пока
+    // пользователь сам не начнёт скроллить: короткая секция у низа страницы
+    // иначе не доходит до порога, и подсветка «проскакивает» на соседнюю
+    var lock = byHash(location.hash);
+
+    window.addEventListener('hashchange', function () {
+      lock = byHash(location.hash);
+      if (lock) setActive(lock);
+    });
+    links.forEach(function (a) {
+      a.addEventListener('click', function () {
+        lock = byHash(a.hash);
+        if (lock) setActive(lock);
+      });
+    });
+    ['wheel', 'touchstart', 'keydown'].forEach(function (t) {
+      window.addEventListener(t, function () { lock = null; }, { passive: true });
+    });
+
+    var onScroll = function () {
+      if (lock) { setActive(lock); return; }
+      var current = pairs[0][1];
+      // У низа страницы заголовок короткой последней секции может не дойти
+      // до порога — считаем активной последнюю главу
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5) {
+        current = pairs[pairs.length - 1][1];
+      } else {
+        for (var i = 0; i < pairs.length; i++) {
+          if (pairs[i][0].getBoundingClientRect().top <= 130) current = pairs[i][1];
+          else break;
+        }
+      }
+      setActive(current);
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

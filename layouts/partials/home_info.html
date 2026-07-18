@@ -1,0 +1,16 @@
+{{- /* Оверрайд PaperMod: hero-wordmark + анонс последней статьи
+      в стиле home-announcement у thinkingmachines.ai */ -}}
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info">
+    <header class="entry-header">
+        <h1>{{ .Title | markdownify }}</h1>
+    </header>
+    {{- range first 1 (where site.RegularPages "Section" "in" site.Params.mainSections) }}
+    <a class="home-announcement" href="{{ .Permalink }}">
+        <span class="pill">New</span>
+        <span class="announcement-text">{{ .Title }}</span>
+    </a>
+    <p class="home-summary">{{ .Summary | plainify }}</p>
+    {{- end }}
+</article>
+{{- end -}}

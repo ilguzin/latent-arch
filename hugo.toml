@@ -10,6 +10,7 @@ theme = 'PaperMod'
   author = 'Denis Ilguzin'
   description = 'Software Architect · Engineering Leader · AI Engineering · 20 years in tech'
   ShowReadingTime = true
+  ShowToc = true
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowShareButtons = false
@@ -29,11 +30,6 @@ theme = 'PaperMod'
 
   [params.homeInfoParams]
     Title = 'Latent Arch'
-    Content = 'Software Architect · Engineering Leader · AI Engineering · 20 years in tech'
-
-  [[params.socialIcons]]
-    name = 'linkedin'
-    url = 'https://linkedin.com/in/'
 
 [menu]
   [[menu.main]]
@@ -68,7 +64,8 @@ theme = 'PaperMod'
     [markup.goldmark.renderer]
       unsafe = true
   [markup.highlight]
-    style = 'monokai'
+    # Классы вместо инлайн-стилей: палитра задаётся в custom.css (стиль TM)
+    noClasses = false
     lineNos = false
 
 [services]
