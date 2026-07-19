@@ -56,6 +56,12 @@ theme = 'PaperMod'
     url = '/ai-news/'
     weight = 40
 
+  [[menu.main]]
+    identifier = 'benchmarks'
+    name = 'Benchmarks'
+    url = '/benchmarks/'
+    weight = 50
+
 [outputs]
   home = ['HTML', 'RSS', 'JSON']
 

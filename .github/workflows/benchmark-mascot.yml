@@ -1,0 +1,68 @@
+# Прогон бенчмарк-задачи «маскот»: конфиг моделей → OpenRouter → SVG + results.json → коммит → деплой.
+# Запуск руками (workflow_dispatch) при выходе новой модели; вход model — перегенерить одну модель.
+# Требует секрет OPENROUTER_API_KEY (уже добавлен для ai-news).
+name: Benchmark mascot
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'id модели из scripts/benchmark-models.json (пусто = все)'
+        required: false
+        default: ''
+  # ВРЕМЕННО: триггер для первого запуска из sandbox без API-токена. Убрать после проверки.
+  push:
+    paths:
+      - '.github/workflows/benchmark-mascot.yml'
+
+permissions:
+  contents: write   # push результатов
+  actions: write    # запуск deploy.yml (push от GITHUB_TOKEN сам не триггерит workflows)
+
+concurrency:
+  group: benchmark-mascot
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Сгенерировать результаты
+        run: |
+          MODEL_ARG=""
+          if [ -n "${{ github.event.inputs.model }}" ]; then
+            MODEL_ARG="--model ${{ github.event.inputs.model }}"
+          fi
+          node scripts/generate-benchmark-mascot.mjs $MODEL_ARG
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+      - name: Закоммитить результаты
+        id: commit
+        run: |
+          git config user.name "Benchmark Bot"
+          git config user.email "actions@github.com"
+          git add content/benchmarks/
+          if git diff --cached --quiet; then
+            echo "Изменений нет — пропуск"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "benchmarks: mascot-svg — прогон $(date -u +%F)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Запустить деплой
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

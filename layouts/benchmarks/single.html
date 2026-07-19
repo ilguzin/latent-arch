@@ -1,0 +1,114 @@
+{{- define "main" }}
+
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">{{ .Description }}</div>
+    {{- end }}
+    <div class="post-meta">{{- partial "post_meta.html" . -}}</div>
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content">{{ .Content }}</div>
+  {{- end }}
+
+  {{/* Результаты — из ресурсов бандла: results.json (модели + вердикты) и results/<id>.svg.
+       Все варианты инлайнятся в HTML на сборке (data-URI), JS только переключает видимость —
+       без рантайм-фетчей, контент виден краулерам. Генерация: scripts/generate-benchmark-mascot.mjs */}}
+  {{- $results := slice }}
+  {{- with .Resources.Get "results.json" }}{{ $results = . | transform.Unmarshal }}{{- end }}
+
+  {{- if $results }}
+  <div class="bench">
+    <div class="bench-picker">
+      <label for="bench-model">Model</label>
+      <select id="bench-model">
+        {{- range $i, $r := $results }}
+        <option value="{{ $r.id }}">{{ $r.name }}</option>
+        {{- end }}
+      </select>
+    </div>
+
+    {{- range $i, $r := $results }}
+    {{- with $.Resources.Get (printf "results/%s.svg" $r.id) }}
+    <figure class="bench-result" data-model="{{ $r.id }}"{{ if ne $i 0 }} hidden{{ end }}>
+      <img src="data:image/svg+xml;base64,{{ .Content | base64Encode }}"
+           alt="{{ $r.name }} — unedited output for: {{ $.Title }}">
+      <figcaption>
+        {{- if $r.verdict }}
+        <p>{{ $r.verdict | markdownify }}</p>
+        {{- else }}
+        <p><em>Not reviewed yet — verdict coming soon.</em></p>
+        {{- end }}
+        <p class="bench-meta">{{ $r.slug }} · generated {{ $r.generatedAt }}</p>
+      </figcaption>
+    </figure>
+    {{- end }}
+    {{- end }}
+  </div>
+
+  <noscript><style>.bench-result[hidden] { display: block; }</style></noscript>
+  <script>
+    (() => {
+      const sel = document.getElementById("bench-model");
+      const figs = Array.from(document.querySelectorAll(".bench-result"));
+      const sync = () => figs.forEach((f) => (f.hidden = f.dataset.model !== sel.value));
+      sel.addEventListener("change", sync);
+      sync(); // браузер мог восстановить прошлое значение селекта при обновлении страницы
+    })();
+  </script>
+  {{- else }}
+  <p class="bench-pending"><em>The first run is in progress — results will appear here soon.</em></p>
+  {{- end }}
+</article>
+
+<style>
+  .bench {
+    margin-top: 24px;
+  }
+  .bench-picker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .bench-picker label {
+    font-weight: 600;
+    color: var(--primary);
+  }
+  .bench-picker select {
+    padding: 8px 12px;
+    font-size: 15px;
+    color: var(--primary);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .bench-result {
+    margin: 0;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .bench-result img {
+    display: block;
+    width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 4px;
+  }
+  .bench-result figcaption {
+    margin-top: 12px;
+    color: var(--content);
+  }
+  .bench-meta {
+    font-size: 13px;
+    color: var(--secondary);
+  }
+</style>
+
+{{- end }}{{/* end main */}}
