@@ -1,5 +1,8 @@
-Gemini 3.1 Pro (google/gemini-3.1-pro-preview)... ok
-Grok 4.5 (x-ai/grok-4.5)... ok
-DeepSeek V4 Pro (deepseek/deepseek-v4-pro)... ошибка (таймаут вызова (4 мин)) — оставляю прежний результат, если был
+Пропуск (результат уже есть): claude-opus-4-8, gpt-5-5, gemini-3-1-pro, grok-4-5
 Kimi K3 (moonshotai/kimi-k3)... ошибка (таймаут вызова (4 мин)) — оставляю прежний результат, если был
-GLM-5 (z-ai/glm-5)... 
+GLM-5 (z-ai/glm-5)... ошибка (таймаут вызова (4 мин)) — оставляю прежний результат, если был
+Llama 4 Maverick (meta-llama/llama-4-maverick)... ok
+GPT-OSS 120B (openai/gpt-oss-120b)... ok
+Qwen3.6 35B-A3B (qwen/qwen3.6-35b-a3b)... ok
+
+Готово: 3/5 новых, в results.json 7 моделей
