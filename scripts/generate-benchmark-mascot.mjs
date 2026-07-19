@@ -104,6 +104,24 @@ async function main() {
   mkdirSync(SVG_DIR, { recursive: true });
   let generated = 0;
 
+  // Порядок и состав results.json — по конфигу; модель без SVG не попадает в выдачу.
+  // Статичные поля (slug/name/released) всегда берутся из конфига — он источник правды,
+  // из прошлого results.json переживают только generatedAt и рукописный verdict.
+  const writeResults = () => {
+    const results = config
+      .filter((m) => prevById.has(m.id) && existsSync(path.join(SVG_DIR, `${m.id}.svg`)))
+      .map((m) => ({
+        id: m.id,
+        slug: m.slug,
+        name: m.name,
+        released: m.released ?? "",
+        generatedAt: prevById.get(m.id).generatedAt ?? "",
+        verdict: prevById.get(m.id).verdict ?? "",
+      }));
+    writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + "\n");
+    return results.length;
+  };
+
   for (const model of targets) {
     process.stdout.write(`${model.name} (${model.slug})... `);
     try {
@@ -116,6 +134,10 @@ async function main() {
         verdict: prevById.get(model.id)?.verdict ?? "",
       });
       generated++;
+      // results.json обновляется после каждой успешной модели, а не в конце прогона:
+      // при обрыве джоба (зависание/отмена/таймаут) всё уже сгенерённое останется
+      // согласованным и попадёт в коммит (шаг коммита в workflow — if: always)
+      writeResults();
       console.log("ok");
     } catch (err) {
       const msg = err.name === "TimeoutError" ? "таймаут вызова (4 мин)" : err.message;
@@ -123,22 +145,8 @@ async function main() {
     }
   }
 
-  // Порядок и состав — по конфигу; модель без успешного прогона и без старого SVG не попадает в выдачу.
-  // Статичные поля (slug/name/released) всегда берутся из конфига — он источник правды,
-  // из прошлого results.json переживают только generatedAt и рукописный verdict.
-  const results = config
-    .filter((m) => prevById.has(m.id) && existsSync(path.join(SVG_DIR, `${m.id}.svg`)))
-    .map((m) => ({
-      id: m.id,
-      slug: m.slug,
-      name: m.name,
-      released: m.released ?? "",
-      generatedAt: prevById.get(m.id).generatedAt ?? "",
-      verdict: prevById.get(m.id).verdict ?? "",
-    }));
-  writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + "\n");
-
-  console.log(`\nГотово: ${generated}/${targets.length} новых, в results.json ${results.length} моделей`);
+  const total = writeResults();
+  console.log(`\nГотово: ${generated}/${targets.length} новых, в results.json ${total} моделей`);
   if (!generated && targets.length) process.exit(1); // все вызовы упали — сигнал в CI
 }
 
