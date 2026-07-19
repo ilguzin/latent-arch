@@ -1,16 +1,34 @@
-{{- /* Оверрайд PaperMod: hero-wordmark + анонс последней статьи
-      в стиле home-announcement у thinkingmachines.ai */ -}}
+{{- /* Оверрайд PaperMod: hero-wordmark + три анонса (статья, бенчмарк,
+      AI-новость) в стиле home-announcement у thinkingmachines.ai */ -}}
 {{- with site.Params.homeInfoParams }}
 <article class="first-entry home-info">
     <header class="entry-header">
         <h1>{{ .Title | markdownify }}</h1>
     </header>
-    {{- range first 1 (where site.RegularPages "Section" "in" site.Params.mainSections) }}
-    <a class="home-announcement" href="{{ .Permalink }}">
-        <span class="pill">New</span>
-        <span class="announcement-text">{{ .Title }}</span>
-    </a>
-    <p class="home-summary">{{ .Summary | plainify }}</p>
-    {{- end }}
+    <div class="home-announcements">
+        {{- range first 1 (where site.RegularPages "Section" "in" site.Params.mainSections) }}
+        <a class="home-announcement" href="{{ .Permalink }}">
+            <span class="pill">Post</span>
+            <span class="announcement-text">{{ .Title }}</span>
+        </a>
+        {{- end }}
+        {{- range first 1 (where site.RegularPages "Section" "benchmarks") }}
+        <a class="home-announcement" href="{{ .Permalink }}">
+            <span class="pill">Benchmark</span>
+            <span class="announcement-text">{{ .Title }}</span>
+        </a>
+        {{- end }}
+        {{- /* Карточки ai-news не рендерятся в свои страницы (render: never)
+              и не попадают в site.RegularPages (list: local) — берём их из
+              секции и ссылаемся на оригинал, как в самой ленте */ -}}
+        {{- with site.GetPage "/ai-news" }}
+        {{- range first 1 .RegularPages }}
+        <a class="home-announcement" href="{{ .Params.link }}" target="_blank" rel="noopener">
+            <span class="pill">AI News</span>
+            <span class="announcement-text">{{ .Title }}</span>
+        </a>
+        {{- end }}
+        {{- end }}
+    </div>
 </article>
 {{- end -}}
