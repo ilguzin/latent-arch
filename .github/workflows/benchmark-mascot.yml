@@ -10,7 +10,8 @@ on:
         description: 'id модели из scripts/benchmark-models.json (пусто = все)'
         required: false
         default: ''
-  # ВРЕМЕННО: триггер для первого запуска из sandbox без API-токена. Убрать после проверки.
+  # ВРЕМЕННО: триггер для запусков из sandbox без API-токена. Убрать после отладки.
+  # (изменение этого файла = запуск прогона недостающих моделей)
   push:
     paths:
       - '.github/workflows/benchmark-mascot.yml'

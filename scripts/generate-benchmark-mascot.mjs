@@ -2,9 +2,10 @@
 // Генерация результатов бенчмарк-задачи «маскот» (SVG) по конфигу моделей.
 // Архитектура — как у collect-ai-news.mjs: конфиг → OpenRouter → файлы контента → коммит в CI.
 //
-// Конфиг: scripts/benchmark-models.json — [{ id, slug, name }], правится руками.
+// Конфиг: scripts/benchmark-models.json — [{ id, slug, name, released }], правится руками;
+//         released — дата появления модели на OpenRouter (поле created каталога /api/v1/models).
 // Выход:  content/benchmarks/mascot-svg/results/<id>.svg
-//         content/benchmarks/mascot-svg/results.json — [{ id, slug, name, generatedAt, verdict }]
+//         content/benchmarks/mascot-svg/results.json — [{ id, slug, name, released, generatedAt, verdict }]
 //
 // Поле verdict («пару слов о результате») — авторское, пишется руками в results.json;
 // скрипт его СОХРАНЯЕТ при перегенерации. У новых результатов verdict пустой.
@@ -49,16 +50,22 @@ async function generate(key, slug) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    // max_tokens явно и с запасом: у reasoning-моделей дефолтный лимит части провайдеров
-    // съедается размышлениями, и до SVG ответ не доходит
-    body: JSON.stringify({ model: slug, max_tokens: 16000, messages: [{ role: "user", content: PROMPT }] }),
+    // max_tokens явно и с большим запасом: у reasoning-моделей лимит делится с размышлениями,
+    // и многословные модели (DeepSeek) обрезали SVG на 16k
+    body: JSON.stringify({ model: slug, max_tokens: 32000, messages: [{ role: "user", content: PROMPT }] }),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
   const json = await res.json();
-  const text = json.choices?.[0]?.message?.content;
+  const choice = json.choices?.[0];
+  const text = choice?.message?.content;
   if (!text) throw new Error(`пустой ответ: ${JSON.stringify(json).slice(0, 300)}`);
   const svg = text.match(/<svg[\s\S]*?<\/svg>/i)?.[0];
-  if (!svg) throw new Error(`в ответе нет <svg> (начало ответа: ${text.slice(0, 200)})`);
+  if (!svg) {
+    const reason = choice?.finish_reason ?? "?";
+    if (/<svg/i.test(text))
+      throw new Error(`SVG обрезан — нет закрывающего тега (finish_reason=${reason}, длина ответа ${text.length})`);
+    throw new Error(`в ответе нет <svg> (finish_reason=${reason}, начало ответа: ${text.slice(0, 200)})`);
+  }
   return svg;
 }
 
@@ -101,9 +108,8 @@ async function main() {
       const svg = await generate(key, model.slug);
       writeFileSync(path.join(SVG_DIR, `${model.id}.svg`), svg);
       prevById.set(model.id, {
+        ...prevById.get(model.id),
         id: model.id,
-        slug: model.slug,
-        name: model.name,
         generatedAt: new Date().toISOString().slice(0, 10),
         verdict: prevById.get(model.id)?.verdict ?? "",
       });
@@ -114,10 +120,19 @@ async function main() {
     }
   }
 
-  // Порядок и состав — по конфигу; модель без успешного прогона и без старого SVG не попадает в выдачу
+  // Порядок и состав — по конфигу; модель без успешного прогона и без старого SVG не попадает в выдачу.
+  // Статичные поля (slug/name/released) всегда берутся из конфига — он источник правды,
+  // из прошлого results.json переживают только generatedAt и рукописный verdict.
   const results = config
-    .map((m) => prevById.get(m.id))
-    .filter((r) => r && existsSync(path.join(SVG_DIR, `${r.id}.svg`)));
+    .filter((m) => prevById.has(m.id) && existsSync(path.join(SVG_DIR, `${m.id}.svg`)))
+    .map((m) => ({
+      id: m.id,
+      slug: m.slug,
+      name: m.name,
+      released: m.released ?? "",
+      generatedAt: prevById.get(m.id).generatedAt ?? "",
+      verdict: prevById.get(m.id).verdict ?? "",
+    }));
   writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + "\n");
 
   console.log(`\nГотово: ${generated}/${targets.length} новых, в results.json ${results.length} моделей`);

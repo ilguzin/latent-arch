@@ -1,12 +1,12 @@
 [
-  { "id": "claude-opus-4-8", "slug": "anthropic/claude-opus-4.8", "name": "Claude Opus 4.8" },
-  { "id": "gpt-5-5", "slug": "openai/gpt-5.5", "name": "GPT-5.5" },
-  { "id": "gemini-3-1-pro", "slug": "google/gemini-3.1-pro-preview", "name": "Gemini 3.1 Pro" },
-  { "id": "grok-4-5", "slug": "x-ai/grok-4.5", "name": "Grok 4.5" },
-  { "id": "deepseek-v4-pro", "slug": "deepseek/deepseek-v4-pro", "name": "DeepSeek V4 Pro" },
-  { "id": "kimi-k3", "slug": "moonshotai/kimi-k3", "name": "Kimi K3" },
-  { "id": "glm-5", "slug": "z-ai/glm-5", "name": "GLM-5" },
-  { "id": "llama-4-maverick", "slug": "meta-llama/llama-4-maverick", "name": "Llama 4 Maverick" },
-  { "id": "gpt-oss-120b", "slug": "openai/gpt-oss-120b", "name": "GPT-OSS 120B" },
-  { "id": "qwen3-6-35b", "slug": "qwen/qwen3.6-35b-a3b", "name": "Qwen3.6 35B-A3B" }
+  { "id": "claude-opus-4-8", "slug": "anthropic/claude-opus-4.8", "name": "Claude Opus 4.8", "released": "2026-05-27" },
+  { "id": "gpt-5-5", "slug": "openai/gpt-5.5", "name": "GPT-5.5", "released": "2026-04-24" },
+  { "id": "gemini-3-1-pro", "slug": "google/gemini-3.1-pro-preview", "name": "Gemini 3.1 Pro", "released": "2026-02-19" },
+  { "id": "grok-4-5", "slug": "x-ai/grok-4.5", "name": "Grok 4.5", "released": "2026-07-08" },
+  { "id": "deepseek-v4-pro", "slug": "deepseek/deepseek-v4-pro", "name": "DeepSeek V4 Pro", "released": "2026-04-24" },
+  { "id": "kimi-k3", "slug": "moonshotai/kimi-k3", "name": "Kimi K3", "released": "2026-07-16" },
+  { "id": "glm-5", "slug": "z-ai/glm-5", "name": "GLM-5", "released": "2026-02-11" },
+  { "id": "llama-4-maverick", "slug": "meta-llama/llama-4-maverick", "name": "Llama 4 Maverick", "released": "2025-04-05" },
+  { "id": "gpt-oss-120b", "slug": "openai/gpt-oss-120b", "name": "GPT-OSS 120B", "released": "2025-08-05" },
+  { "id": "qwen3-6-35b", "slug": "qwen/qwen3.6-35b-a3b", "name": "Qwen3.6 35B-A3B", "released": "2026-04-27" }
 ]

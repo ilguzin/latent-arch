@@ -53,7 +53,7 @@
         {{- else }}
         <p><em>Not reviewed yet — verdict coming soon.</em></p>
         {{- end }}
-        <p class="bench-meta">{{ $r.slug }} · generated {{ $r.generatedAt }}</p>
+        <p class="bench-meta">{{ $r.slug }}{{ with $r.released }} · released {{ . }}{{ end }} · generated {{ $r.generatedAt }}</p>
       </figcaption>
     </figure>
     {{- end }}
