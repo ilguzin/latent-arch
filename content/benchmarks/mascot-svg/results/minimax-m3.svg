@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- Background -->
+  <rect width="500" height="500" fill="#f5e6d3"/>
+
+  <!-- Ground -->
+  <ellipse cx="250" cy="460" rx="200" ry="15" fill="#d4b896"/>
+
+  <!-- Cello -->
+  <g>
+    <!-- Endpin -->
+    <line x1="250" y1="440" x2="250" y2="458" stroke="#2b1810" stroke-width="3"/>
+    <circle cx="250" cy="458" r="4" fill="#2b1810"/>
+
+    <!-- Cello body (hourglass shape) -->
+    <path d="M 250 170
+             C 280 170, 305 185, 305 220
+             C 305 250, 295 270, 290 285
+             C 285 300, 290 320, 295 340
+             C 305 380, 295 425, 250 440
+             C 205 425, 195 380, 205 340
+             C 210 320, 215 300, 210 285
+             C 205 270, 195 250, 195 220
+             C 195 185, 220 170, 250 170 Z"
+          fill="#8b4513" stroke="#3d1f0a" stroke-width="2"/>
+
+    <!-- Cello top bout highlight -->
+    <ellipse cx="250" cy="210" rx="40" ry="35" fill="none" stroke="#5c2d0d" stroke-width="1.5"/>
+
+    <!-- F-holes -->
+    <path d="M 220 240
+             C 215 250, 215 270, 218 285
+             C 220 290, 223 290, 223 285
+             C 220 275, 220 255, 225 245
+             C 226 240, 222 238, 220 240 Z"
+          fill="#1a0a05"/>
+    <circle cx="218" cy="240" r="2.5" fill="#1a0a05"/>
+    <circle cx="221" cy="288" r="2.5" fill="#1a0a05"/>
+
+    <path d="M 280 240
+             C 285 250, 285 270, 282 285
+             C 280 290, 277 290, 277 285
+             C 280 275, 280 255, 275 245
+             C 274 240, 278 238, 280 240 Z"
+          fill="#1a0a05"/>
+    <circle cx="282" cy="240" r="2.5" fill="#1a0a05"/>
+    <circle cx="279" cy="288" r="2.5" fill="#1a0a05"/>
+
+    <!-- Bridge -->
+    <path d="M 240 345
+             L 238 360
+             L 242 358
+             L 244 362
+             L 246 358
+             L 250 362
+             L 254 358
+             L 256 362
+             L 258 358
+             L 262 360
+             L 260 345 Z"
+          fill="#3d1f0a" stroke="#1a0a05" stroke-width="0.5"/>
+
+    <!-- Strings (4 strings) -->
+    <line x1="250" y1="170" x2="248" y2="350" stroke="#f0e0c0" stroke-width="0.8"/>
+    <line x1="250" y1="170" x2="249" y2="350" stroke="#f0e0c0" stroke-width="0.8"/>
+    <line x1="250" y1="170" x2="251" y2="350" stroke="#e8d090" stroke-width="0.8"/>
+    <line x1="250" y1="170" x2="252" y2="350" stroke="#e8d090" stroke-width="0.8"/>
+
+    <!-- Tailpiece -->
+    <path d="M 240 360 L 260 360 L 258 385 L 242 385 Z" fill="#1a0a05"/>
+
+    <!-- Fingerboard/Neck -->
+    <rect x="246" y="90" width="8" height="80" fill="#2b1810"/>
+
+    <!-- Tuning pegs -->
+    <ellipse cx="238" cy="80" rx="5" ry="3" fill="#2b1810"/>
+    <ellipse cx="262" cy="80" rx="5" ry="3" fill="#2b1810"/>
+    <ellipse cx="238" cy="95" rx="5" ry="3" fill="#2b1810"/>
+    <ellipse cx="262" cy="95" rx="5" ry="3" fill="#2b1810"/>
+
+    <!-- Scroll -->
+    <circle cx="250" cy="80" r="8" fill="#3d1f0a" stroke="#1a0a05" stroke-width="1"/>
+    <circle cx="250" cy="80" r="3" fill="#1a0a05"/>
+  </g>
+
+  <!-- Bow -->
+  <g>
+    <line x1="180" y1="280" x2="370" y2="240" stroke="#3d1f0a" stroke-width="3"/>
+    <line x1="180" y1="280" x2="370" y2="240" stroke="#f0e0c0" stroke-width="1.5" transform="translate(0,-1)"/>
+    <rect x="175" y="276" width="15" height="8" fill="#1a0a05" rx="1"/>
+  </g>
+
+  <!-- Walrus -->
+  <g>
+    <!-- Body -->
+    <ellipse cx="160" cy="360" rx="90" ry="70" fill="#8b7355" stroke="#5c4a3a" stroke-width="2"/>
+
+    <!-- Belly -->
+    <ellipse cx="160" cy="380" rx="60" ry="40" fill="#a89070"/>
+
+    <!-- Tail flippers -->
+    <path d="M 230 380 Q 260 385, 265 400 Q 250 410, 235 395 Z" fill="#7a6347" stroke="#5c4a3a" stroke-width="1.5"/>
+    <path d="M 90 380 Q 60 385, 55 400 Q 70 410, 85 395 Z" fill="#7a6347" stroke="#5c4a3a" stroke-width="1.5"/>
+
+    <!-- Head -->
+    <ellipse cx="160" cy="250" rx="80" ry="70" fill="#8b7355" stroke="#5c4a3a" stroke-width="2"/>
+
+    <!-- Cheeks/snout area -->
+    <ellipse cx="160" cy="280" rx="55" ry="35" fill="#a89070"/>
+
+    <!-- Muzzle (bulbous nose area) -->
+    <ellipse cx="160" cy="285" rx="50" ry="30" fill="#9c8060" stroke="#5c4a3a" stroke-width="1.5"/>
+
+    <!-- Eyes -->
+    <circle cx="125" cy="230" r="8" fill="#fff"/>
+    <circle cx="125" cy="230" r="5" fill="#1a0a05"/>
+    <circle cx="127" cy="228" r="1.5" fill="#fff"/>
+
+    <circle cx="195" cy="230" r="8" fill="#fff"/>
+    <circle cx="195" cy="230" r="5" fill="#1a0a05"/>
+    <circle cx="197" cy="228" r="1.5" fill="#fff"/>
+
+    <!-- Eyebrows -->
+    <path d="M 115 218 Q 125 213, 135 218" stroke="#5c4a3a" stroke-width="2" fill="none"/>
+    <path d="M 185 218 Q 195 213, 205 218" stroke="#5c4a3a" stroke-width="2" fill="none"/>
+
+    <!-- Nostrils -->
+    <ellipse cx="148" cy="285" rx="3" ry="5" fill="#1a0a05"/>
+    <ellipse cx="172" cy="285" rx="3" ry="5" fill="#1a0a05"/>
+
+    <!-- Tusks (two long tusks) -->
+    <path d="M 138 290 Q 130 320, 125 345 Q 124 348, 127 348 Q 132 325, 142 295 Z"
+          fill="#fff8e7" stroke="#d4c4a0" stroke-width="1.5"/>
+    <path d="M 182 290 Q 190 320, 195 345 Q 196 348, 193 348 Q 188 325, 178 295 Z"
+          fill="#fff8e7" stroke="#d4c4a0" stroke-width="1.5"/>
+
+    <!-- Whiskers -->
+    <g stroke="#3d2817" stroke-width="1" fill="none" stroke-linecap="round">
+      <!-- Left whiskers -->
+      <path d="M 130 290 Q 100 285, 80 278"/>
+      <path d="M 132 295 Q 100 295, 75 295"/>
+      <path d="M 130 300 Q 95 305, 78 315"/>
+      <path d="M 128 285 Q 95 275, 78 268"/>
+
+      <!-- Right whiskers -->
+      <path d="M 190 290 Q 220 285, 240 278"/>
+      <path d="M 188 295 Q 220 295, 245 295"/>
+      <path d="M 190 300 Q 225 305, 242 315"/>
+      <path d="M 192 285 Q 225 275, 242 268"/>
+    </g>
+
+    <!-- Mouth -->
+    <path d="M 145 305 Q 160 312, 175 305" stroke="#3d2817" stroke-width="2" fill="none"/>
+
+    <!-- Ear holes -->
+    <ellipse cx="100" cy="225" rx="3" ry="5" fill="#5c4a3a"/>
+    <ellipse cx="220" cy="225" rx="3" ry="5" fill="#5c4a3a"/>
+
+    <!-- Front flipper (drawing the bow) -->
+    <g>
+      <path d="M 200 320
+               Q 250 310, 290 295
+               Q 310 290, 320 285
+               Q 315 300, 295 310
+               Q 260 320, 215 335 Z"
+            fill="#7a6347" stroke="#5c4a3a" stroke-width="2"/>
+      <!-- Flipper claws/details -->
+      <path d="M 290 295 L 295 290 M 295 297 L 300 292 M 300 299 L 305 294"
+            stroke="#3d2817" stroke-width="1" fill="none"/>
+    </g>
+
+    <!-- Back flipper (supporting) -->
+    <g>
+      <path d="M 100 340
+               Q 70 360, 60 395
+               Q 65 405, 80 400
+               Q 95 385, 115 365 Z"
+            fill="#7a6347" stroke="#5c4a3a" stroke-width="2"/>
+    </g>
+  </g>
+</svg>
