@@ -49,6 +49,8 @@ function parseArgs(argv) {
 async function generate(key, slug) {
   const res = await fetch(API_URL, {
     method: "POST",
+    // Таймаут на вызов: зависший провайдер (Kimi K3 висел >30 мин) не должен стопорить весь прогон
+    signal: AbortSignal.timeout(240_000),
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     // max_tokens явно и с большим запасом: у reasoning-моделей лимит делится с размышлениями,
     // и многословные модели (DeepSeek) обрезали SVG на 16k
@@ -116,7 +118,8 @@ async function main() {
       generated++;
       console.log("ok");
     } catch (err) {
-      console.log(`ошибка (${err.message}) — оставляю прежний результат, если был`);
+      const msg = err.name === "TimeoutError" ? "таймаут вызова (4 мин)" : err.message;
+      console.log(`ошибка (${msg}) — оставляю прежний результат, если был`);
     }
   }
 
