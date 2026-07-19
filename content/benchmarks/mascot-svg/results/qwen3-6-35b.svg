@@ -1,0 +1,210 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="spotlight" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="curtainGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2a0808"/>
+      <stop offset="50%" stop-color="#5c1a1a"/>
+      <stop offset="100%" stop-color="#2a0808"/>
+    </linearGradient>
+    
+    <!-- Walrus Skin Gradient -->
+    <radialGradient id="walrusSkin" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#a36b45"/>
+      <stop offset="70%" stop-color="#7a4a2a"/>
+      <stop offset="100%" stop-color="#4a2a10"/>
+    </radialGradient>
+    <radialGradient id="walrusBelly" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d49a82"/>
+      <stop offset="100%" stop-color="#a36b45"/>
+    </radialGradient>
+
+    <!-- Cello Wood Gradient -->
+    <linearGradient id="celloWood" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5c2e0b"/>
+      <stop offset="25%" stop-color="#8c4a15"/>
+      <stop offset="75%" stop-color="#7a3e10"/>
+      <stop offset="100%" stop-color="#3d1f04"/>
+    </linearGradient>
+    <linearGradient id="celloNeck" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#111"/>
+      <stop offset="50%" stop-color="#222"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Stage -->
+  <rect width="800" height="800" fill="#111"/>
+  <ellipse cx="400" cy="780" rx="450" ry="80" fill="#1a1a1a"/>
+  
+  <!-- Curtains -->
+  <rect x="0" y="0" width="120" height="800" fill="url(#curtainGrad)"/>
+  <rect x="680" y="0" width="120" height="800" fill="url(#curtainGrad)"/>
+  <path d="M 120 0 C 150 200, 80 400, 130 600 C 160 700, 100 750, 100 800 L 0 800 L 0 0 Z" fill="#4a0f0f" opacity="0.6"/>
+  <path d="M 680 0 C 650 200, 720 400, 670 600 C 640 700, 700 750, 700 800 L 800 800 L 800 0 Z" fill="#4a0f0f" opacity="0.6"/>
+  
+  <!-- Spotlight Overlay -->
+  <ellipse cx="400" cy="500" rx="350" ry="350" fill="url(#spotlight)"/>
+
+  <!-- Music Stand -->
+  <g id="music-stand">
+    <path d="M 620 800 L 640 550 L 680 480 L 740 480" stroke="#222" stroke-width="6" fill="none"/>
+    <rect x="620" y="380" width="140" height="100" rx="4" fill="#333" stroke="#111" stroke-width="4"/>
+    <line x1="635" y1="400" x2="745" y2="400" stroke="#ddd" stroke-width="1"/>
+    <line x1="635" y1="420" x2="745" y2="420" stroke="#ddd" stroke-width="1"/>
+    <line x1="635" y1="440" x2="745" y2="440" stroke="#ddd" stroke-width="1"/>
+  </g>
+
+  <!-- ================= WALRUS ================= -->
+  <g id="walrus">
+    <!-- Back Flipper (Left) -->
+    <path d="M 250 380 C 280 350, 330 330, 360 320 C 370 315, 380 330, 360 340 C 330 360, 280 390, 250 400 Z" fill="url(#walrusSkin)" stroke="#3d1f04" stroke-width="2"/>
+
+    <!-- Main Body -->
+    <path d="M 120 400 C 120 250, 250 200, 350 220 C 450 240, 480 350, 460 450 C 440 550, 350 650, 250 680 C 150 710, 120 600, 120 400 Z" fill="url(#walrusSkin)" stroke="#3d1f04" stroke-width="2"/>
+    
+    <!-- Belly -->
+    <path d="M 160 420 C 160 320, 250 280, 330 300 C 400 320, 420 400, 400 500 C 380 600, 300 650, 240 660 C 180 670, 160 600, 160 420 Z" fill="url(#walrusBelly)"/>
+
+    <!-- Head -->
+    <ellipse cx="220" cy="260" rx="90" ry="80" fill="url(#walrusSkin)" stroke="#3d1f04" stroke-width="2"/>
+    
+    <!-- Forehead Wrinkles -->
+    <path d="M 160 220 C 180 240, 200 240, 220 220" fill="none" stroke="#5c2e0b" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 150 240 C 170 260, 210 260, 240 240" fill="none" stroke="#5c2e0b" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 145 260 C 170 280, 210 280, 250 260" fill="none" stroke="#5c2e0b" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Eyes -->
+    <ellipse cx="190" cy="230" rx="8" ry="12" fill="#111"/>
+    <circle cx="188" cy="226" r="2.5" fill="#fff"/>
+    <ellipse cx="240" cy="235" rx="6" ry="9" fill="#111"/>
+    <circle cx="238" cy="232" r="2" fill="#fff"/>
+
+    <!-- Ear -->
+    <ellipse cx="140" cy="240" rx="12" ry="8" fill="#4a2a10" stroke="#2a0808" stroke-width="2"/>
+
+    <!-- Snout / Nose -->
+    <ellipse cx="260" cy="270" rx="25" ry="18" fill="#2a0808"/>
+    <path d="M 260 270 Q 275 285 285 280" fill="none" stroke="#2a0808" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Whiskers (Visible) -->
+    <g stroke="#222" stroke-width="3" stroke-linecap="round" fill="none">
+      <!-- Upper Whiskers -->
+      <path d="M 270 260 Q 310 240 350 220"/>
+      <path d="M 275 265 Q 320 250 360 240"/>
+      <path d="M 270 270 Q 310 270 340 270"/>
+      <!-- Lower Whiskers -->
+      <path d="M 270 280 Q 310 290 340 310"/>
+      <path d="M 275 285 Q 320 300 350 330"/>
+    </g>
+
+    <!-- Tusks -->
+    <path d="M 240 285 C 250 320, 240 380, 220 420 C 215 430, 200 425, 210 400 C 225 360, 235 310, 230 280 Z" fill="#f0e6d2" stroke="#a38b72" stroke-width="1"/>
+    <path d="M 270 285 C 280 320, 270 380, 250 420 C 245 430, 230 425, 240 400 C 255 360, 265 310, 260 280 Z" fill="#f0e6d2" stroke="#a38b72" stroke-width="1"/>
+
+    <!-- Front Flipper (Right - Holding Bow) -->
+    <path d="M 350 420 C 380 450, 420 480, 450 490 C 460 495, 465 505, 450 510 C 420 520, 380 500, 340 460 Z" fill="url(#walrusSkin)" stroke="#3d1f04" stroke-width="2"/>
+  </g>
+
+  <!-- ================= CELLO ================= -->
+  <g id="cello">
+    <!-- Endpin -->
+    <line x1="480" y1="660" x2="480" y2="770" stroke="#111" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="480" cy="770" r="6" fill="#333"/>
+
+    <!-- Neck & Pegbox -->
+    <path d="M 465 350 L 475 350 L 472 150 L 468 150 Z" fill="url(#celloNeck)"/>
+    <path d="M 468 150 L 472 150 L 476 80 C 476 70, 466 70, 464 80 Z" fill="#111"/>
+    <!-- Pegs -->
+    <line x1="472" y1="130" x2="490" y2="120" stroke="#222" stroke-width="4" stroke-linecap="round"/>
+    <line x1="471" y1="110" x2="450" y2="100" stroke="#222" stroke-width="4" stroke-linecap="round"/>
+    <line x1="470" y1="90" x2="490" y2="80" stroke="#222" stroke-width="4" stroke-linecap="round"/>
+    <line x1="469" y1="70" x2="450" y2="60" stroke="#222" stroke-width="4" stroke-linecap="round"/>
+    <!-- Scroll -->
+    <path d="M 470 80 C 485 60, 495 80, 480 95 C 470 105, 460 95, 465 85 C 470 75, 480 65, 470 80 Z" fill="#111"/>
+
+    <!-- Cello Body -->
+    <path d="M 465 360 
+             C 480 360, 490 400, 490 430 
+             C 490 460, 470 480, 470 510 
+             C 470 540, 530 540, 530 510 
+             C 530 480, 510 460, 510 430 
+             C 510 400, 520 360, 535 360 
+             C 550 360, 550 400, 540 430 
+             C 535 450, 550 470, 550 500 
+             C 550 560, 450 560, 450 500 
+             C 450 470, 465 450, 460 430 
+             C 450 400, 450 360, 465 360 Z" 
+          fill="url(#celloWood)" stroke="#2a1202" stroke-width="3"/>
+          
+    <!-- Edge Highlight -->
+    <path d="M 465 360 C 480 360, 490 400, 490 430 C 490 460, 470 480, 470 510 C 470 540, 530 540, 530 510 C 530 480, 510 460, 510 430 C 510 400, 520 360, 535 360" 
+          fill="none" stroke="#a66321" stroke-width="2" opacity="0.5"/>
+
+    <!-- F-holes -->
+    <g fill="none" stroke="#0a0500" stroke-width="3" stroke-linecap="round">
+      <!-- Left F-hole -->
+      <path d="M 465 440 C 450 440, 445 460, 455 480 C 460 490, 450 500, 460 510 C 470 520, 480 510, 475 500 C 470 490, 480 480, 470 470 C 460 460, 465 445, 465 440 Z"/>
+      <path d="M 465 440 C 465 440, 450 440, 445 460 C 440 480, 450 490, 460 510"/>
+      <!-- Right F-hole -->
+      <path d="M 535 440 C 550 440, 555 460, 545 480 C 540 490, 550 500, 540 510 C 530 520, 520 510, 525 500 C 530 490, 520 480, 530 470 C 540 460, 535 445, 535 440 Z"/>
+      <path d="M 535 440 C 535 440, 550 440, 555 460 C 560 480, 550 490, 540 510"/>
+    </g>
+
+    <!-- Soundpost -->
+    <rect x="498" y="450" width="6" height="25" fill="#111" rx="2"/>
+
+    <!-- Bridge -->
+    <path d="M 495 500 L 505 500 L 507 530 L 493 530 Z" fill="#8c5a25" stroke="#3d200a" stroke-width="1"/>
+    <path d="M 496 505 L 504 505 L 505 525 L 495 525 Z" fill="#a66b35"/>
+    <!-- Bridge Cutouts -->
+    <path d="M 497 510 C 495 515, 497 520, 499 520" fill="none" stroke="#3d200a" stroke-width="1"/>
+    <path d="M 503 510 C 505 515, 503 520, 501 520" fill="none" stroke="#3d200a" stroke-width="1"/>
+
+    <!-- Tailpiece -->
+    <path d="M 475 540 C 475 555, 525 555, 525 540 Z" fill="#111"/>
+    
+    <!-- Fine Tuners -->
+    <rect x="485" y="545" width="6" height="8" fill="#ccc" rx="1"/>
+    <rect x="497" y="545" width="6" height="8" fill="#ccc" rx="1"/>
+    <rect x="509" y="545" width="6" height="8" fill="#ccc" rx="1"/>
+    <rect x="521" y="545" width="6" height="8" fill="#ccc" rx="1"/>
+
+    <!-- Strings -->
+    <g stroke="#ccc" stroke-width="1.5">
+      <line x1="480" y1="140" x2="480" y2="545"/>
+      <line x1="488" y1="140" x2="488" y2="545"/>
+      <line x1="496" y1="140" x2="496" y2="545"/>
+      <line x1="504" y1="140" x2="504" y2="545"/>
+    </g>
+
+    <!-- Tuning Pegs (Head) -->
+    <circle cx="490" cy="120" r="3" fill="#333"/>
+    <circle cx="450" cy="100" r="3" fill="#333"/>
+    <circle cx="490" cy="80" r="3" fill="#333"/>
+    <circle cx="450" cy="60" r="3" fill="#333"/>
+  </g>
+
+  <!-- ================= BOW ================= -->
+  <g id="bow">
+    <!-- Bow Stick -->
+    <line x1="380" y1="495" x2="540" y2="515" stroke="#3d1f04" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Bow Hair -->
+    <line x1="390" y1="495" x2="540" y2="515" stroke="#f0f0f0" stroke-width="1.5"/>
+    
+    <!-- Bow Tip -->
+    <path d="M 540 515 L 550 516 L 545 518 Z" fill="#3d1f04"/>
+    
+    <!-- Bow Frog -->
+    <rect x="375" y="488" width="25" height="16" rx="3" fill="#111" stroke="#333" stroke-width="1"/>
+    <rect x="380" y="492" width="4" height="8" fill="#d4af37" rx="1"/>
+  </g>
+
+  <!-- Walrus Left Flipper resting on the Neck (Overlaps Cello) -->
+  <path d="M 300 380 C 340 360, 380 340, 400 330 C 410 325, 415 340, 400 350 C 380 360, 340 390, 300 400 Z" fill="url(#walrusSkin)" stroke="#3d1f04" stroke-width="2"/>
+
+</svg>

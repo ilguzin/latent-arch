@@ -30,5 +30,29 @@
     "released": "2026-07-08",
     "generatedAt": "2026-07-19",
     "verdict": "Charming children's-book style, and the checklist is nearly all here: both tusks, whiskers, two proper f-holes, four strings, a tailpiece and an endpin. The cello, however, is shaped like a barrel with hoops, and the bow rests on a flipper-blob rather than being held. Roughly 5 of 7."
+  },
+  {
+    "id": "llama-4-maverick",
+    "slug": "meta-llama/llama-4-maverick",
+    "name": "Llama 4 Maverick",
+    "released": "2025-04-05",
+    "generatedAt": "2026-07-19",
+    "verdict": ""
+  },
+  {
+    "id": "gpt-oss-120b",
+    "slug": "openai/gpt-oss-120b",
+    "name": "GPT-OSS 120B",
+    "released": "2025-08-05",
+    "generatedAt": "2026-07-19",
+    "verdict": ""
+  },
+  {
+    "id": "qwen3-6-35b",
+    "slug": "qwen/qwen3.6-35b-a3b",
+    "name": "Qwen3.6 35B-A3B",
+    "released": "2026-04-27",
+    "generatedAt": "2026-07-19",
+    "verdict": ""
   }
 ]
