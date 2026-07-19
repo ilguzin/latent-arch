@@ -10,8 +10,19 @@
     <div class="post-meta">{{- partial "post_meta.html" . -}}</div>
   </header>
 
-  {{- if .Content }}
-  <div class="post-content">{{ .Content }}</div>
+  {{/* Маркер <!--after-results--> в markdown делит статью: до — перед блоком результатов,
+       после — под ним (например, общее саммари по итогам). Без маркера — всё до результатов. */}}
+  {{- $before := printf "%s" .Content }}
+  {{- $after := "" }}
+  {{- $marker := "<!--after-results-->" }}
+  {{- if in $before $marker }}
+  {{- $parts := split $before $marker }}
+  {{- $before = index $parts 0 }}
+  {{- $after = index $parts 1 }}
+  {{- end }}
+
+  {{- with $before }}
+  <div class="post-content">{{ . | safeHTML }}</div>
   {{- end }}
 
   {{/* Результаты — из ресурсов бандла: results.json (модели + вердикты) и results/<id>.svg.
@@ -62,6 +73,10 @@
   </script>
   {{- else }}
   <p class="bench-pending"><em>The first run is in progress — results will appear here soon.</em></p>
+  {{- end }}
+
+  {{- with $after }}
+  <div class="post-content">{{ . | safeHTML }}</div>
   {{- end }}
 </article>
 
