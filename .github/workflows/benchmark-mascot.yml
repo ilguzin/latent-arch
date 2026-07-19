@@ -27,7 +27,11 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      # ref: main явно — «Re-run» старого запуска иначе чекаутит старый SHA,
+      # и джоб перегенерирует уже опубликованные результаты, а пуш отклоняется
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
@@ -38,13 +42,25 @@ jobs:
 
       - name: Сгенерировать результаты
         run: |
+          set -o pipefail
           MODEL_ARG=""
           if [ -n "${{ github.event.inputs.model }}" ]; then
             MODEL_ARG="--model ${{ github.event.inputs.model }}"
           fi
-          node scripts/generate-benchmark-mascot.mjs $MODEL_ARG
+          node scripts/generate-benchmark-mascot.mjs $MODEL_ARG 2>&1 | tee /tmp/bench.log
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+
+      # ВРЕМЕННО: коммит лога прогона, чтобы читать ошибки из sandbox без доступа к логам Actions.
+      # Убрать вместе с push-триггером после отладки (паттерн ai-news).
+      - name: Закоммитить лог прогона
+        if: always()
+        run: |
+          git config user.name "Benchmark Bot"
+          git config user.email "actions@github.com"
+          tail -c 4000 /tmp/bench.log > benchmark-last-run.log
+          git add benchmark-last-run.log
+          git diff --cached --quiet || { git commit -m "ci: benchmark-mascot — лог прогона (временно, удалить)"; git pull --rebase origin main; git push; }
 
       - name: Закоммитить результаты
         id: commit
@@ -58,6 +74,8 @@ jobs:
             exit 0
           fi
           git commit -m "benchmarks: mascot-svg — прогон $(date -u +%F)"
+          # пока джоб работал, main мог уехать (например, коммит ai-news) — иначе push отклонится
+          git pull --rebase origin main
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
 

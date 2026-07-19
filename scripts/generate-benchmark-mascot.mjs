@@ -10,8 +10,10 @@
 // скрипт его СОХРАНЯЕТ при перегенерации. У новых результатов verdict пустой.
 //
 // Использование:
-//   OPENROUTER_API_KEY=... node scripts/generate-benchmark-mascot.mjs [--model <id>]
-//   --model <id> — перегенерировать только одну модель из конфига.
+//   OPENROUTER_API_KEY=... node scripts/generate-benchmark-mascot.mjs [--model <id> | --all]
+//   По умолчанию генерируются только модели БЕЗ существующего SVG (результаты статьи
+//   заморожены — «no retries», перепрогон не должен молча перерисовывать опубликованное).
+//   --model <id> — принудительно перегенерировать одну модель; --all — все.
 //
 // Ошибка вызова одной модели не роняет прогон: старый результат (если был) остаётся.
 
@@ -31,9 +33,10 @@ const PROMPT =
   "Generate an SVG of a walrus playing a cello. The walrus must have its two long tusks and visible whiskers. The cello must have a correctly shaped curved body with two f-holes, four strings, and a bridge, standing upright on its endpin. The walrus must be clearly drawing a bow across the strings with its flipper.";
 
 function parseArgs(argv) {
-  const args = { model: null };
+  const args = { model: null, all: false };
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--model") args.model = argv[++i];
+    else if (argv[i] === "--all") args.all = true;
     else {
       console.error(`Неизвестный аргумент: ${argv[i]}`);
       process.exit(1);
@@ -46,7 +49,9 @@ async function generate(key, slug) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: slug, messages: [{ role: "user", content: PROMPT }] }),
+    // max_tokens явно и с запасом: у reasoning-моделей дефолтный лимит части провайдеров
+    // съедается размышлениями, и до SVG ответ не доходит
+    body: JSON.stringify({ model: slug, max_tokens: 16000, messages: [{ role: "user", content: PROMPT }] }),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
   const json = await res.json();
@@ -66,10 +71,19 @@ async function main() {
   }
 
   const config = JSON.parse(readFileSync(CONFIG_PATH, "utf8"));
-  const targets = args.model ? config.filter((m) => m.id === args.model) : config;
-  if (!targets.length) {
-    console.error(`Модель "${args.model}" не найдена в ${CONFIG_PATH}`);
-    process.exit(1);
+  let targets;
+  if (args.model) {
+    targets = config.filter((m) => m.id === args.model);
+    if (!targets.length) {
+      console.error(`Модель "${args.model}" не найдена в ${CONFIG_PATH}`);
+      process.exit(1);
+    }
+  } else if (args.all) {
+    targets = config;
+  } else {
+    // Дефолт: только модели без результата — опубликованные рисунки не перерисовываем
+    targets = config.filter((m) => !existsSync(path.join(SVG_DIR, `${m.id}.svg`)));
+    if (!targets.length) console.log("У всех моделей из конфига уже есть результат — генерировать нечего");
   }
 
   // Существующие результаты — источник рукописных вердиктов и фолбэк при ошибках
