@@ -50,7 +50,7 @@ async function generate(key, slug) {
   const res = await fetch(API_URL, {
     method: "POST",
     // Таймаут на вызов: зависший провайдер (Kimi K3 висел >30 мин) не должен стопорить весь прогон
-    signal: AbortSignal.timeout(240_000),
+    signal: AbortSignal.timeout(600_000),
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     // max_tokens явно и с большим запасом: у reasoning-моделей лимит делится с размышлениями,
     // и многословные модели (DeepSeek) обрезали SVG на 16k
@@ -147,7 +147,7 @@ async function main() {
       writeResults();
       console.log("ok");
     } catch (err) {
-      const msg = err.name === "TimeoutError" ? "таймаут вызова (4 мин)" : err.message;
+      const msg = err.name === "TimeoutError" ? "таймаут вызова (10 мин)" : err.message;
       console.log(`ошибка (${msg}) — оставляю прежний результат, если был`);
     }
   }
